@@ -1,12 +1,12 @@
-import { asyncHandler } from "../middleware/user.middleware";
-import { ApiError } from "../utils/ApiError";
-import { User } from "../models/user.model";
+import { asyncHandler } from "../middleware/user.middleware.js";
+import { ApiError } from "../utils/ApiError.js";
+import { User } from "../models/user.model.js";
 import validator from "validator"
-import { ApiResponse } from "../utils/ApiResponse";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 const generateAccessToken = async(userId) => {
    try {
-      const user = await User.findById(userId)
+      const user = await user.findById(userId)
       if(!user){
          throw new ApiError(401, `user not found while generating access token`);
       }
@@ -45,6 +45,7 @@ const  signUp = asyncHandler(async(req, res) => {
     //check user already exist or not
      const isUserAlreadyExist = await User.findOne({email});
      if(isUserAlreadyExist){
+      console.log("Existing user:", isUserAlreadyExist);
         throw new ApiError(400, `user already exist`)
      }    
 
@@ -58,11 +59,6 @@ const  signUp = asyncHandler(async(req, res) => {
         throw new ApiError(400, `create strong password, passord must be atleast of 8 numbers or characters`)
      }
      
-     // generating access token
-     const { accessToken } = await generateAccessToken();
-      if(!accessToken){
-         throw new ApiError(401, `access token not found`)
-      }
 
       //creating user
      const user = await User.create({
@@ -71,17 +67,114 @@ const  signUp = asyncHandler(async(req, res) => {
         email,
         password,
         role
-     }).Select("-password")
+     })
+     const createdUser = await User.findById(user?._id).select("-password");
+     if(!createdUser){
+      throw new ApiError(401, "created user not found");
+     }
+
+          // generating access token
+
 
      return res
      .status(200)
      .json(
         new ApiResponse(
             200, 
-            user,
+            createdUser,
             "User registered successfully"
         )
      );
+})
+
+
+   //login
+   const login = asyncHandler(async(req, res) => {
+      //get user details from frontend
+      //validate 
+      //find user, if not exist give msg not registered yet
+      //check password- correct or not
+      //generate  access token
+      // return res
+      
+      //taking details from frontend
+      const {identifier, password} = req.body;
+      //validate
+      if(identifier?.trim() === ""){
+         throw new ApiError(400, `username or email is required`);
+      }
+
+      if(!password){
+         throw new ApiError(400, `password is required`);
+      }
+
+      // find user
+      const existedUser = await User.findOne({
+         $or: [ 
+            {username: identifier}, {email: identifier}
+          ]
+      })
+      if(!existedUser){
+         throw new ApiError(401, `you aren't registered yet`);
+      }
+
+      // check password
+      const isPasswordCorrect = await User.isPasswordCorrect(password);
+      if(!isPasswordCorrect){
+         throw new ApiError(400, `wrong password`);
+      }
+      
+      //generating access token
+      const { accessToken } = await generateAccessToken(existedUser?._id);
+      
+      const options = {
+         httpOnly: true,
+         secure: false
+      }
+
+      return res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .json(
+         new ApiResponse(
+            200,
+            existedUser,
+            `logged in successfully`
+         )
+      )
+
+
+
+
+
+
+
+   })
+
+   
+
+   //logout
+const logout = asyncHandler(async(req, res) => {
+   // first verify user is authenticated by verifyJWT
+   //then find user by id
+   //clear cookie 
+
+    const options = {
+         httpOnly: true,
+         secure: false
+      }
+
+      return res
+      .status(200)
+      .clearcookie("accessToken", options)
+      .json(
+         new ApiResponse(
+            200,
+            {},
+            `logged out successfully`
+         )
+      )
+   
 })
 
 
@@ -99,5 +192,7 @@ const  signUp = asyncHandler(async(req, res) => {
 
 
 export { 
-   signUp
+   signUp,
+   login,
+   logout
  }

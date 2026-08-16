@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 
 const userSchema = new Schema(
     {
-        fullnName: {
+        fullName: {
             type: String,
             required: true,
             index: true
@@ -50,7 +50,7 @@ const userSchema = new Schema(
     };
 
     userSchema.methods.generateAccessToken = async function(){
-        return await jwt.sign(
+        return jwt.sign(
             {_id: this._id},
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: process.env.ACCESS_TOKEN_EXPIRY}
