@@ -6,12 +6,12 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 
 const generateAccessToken = async(userId) => {
    try {
-      const user = await user.findById(userId)
+      const user = await User.findById(userId)
       if(!user){
          throw new ApiError(401, `user not found while generating access token`);
       }
 
-      const accessToken = await User.generateAccessToken();
+      const accessToken = await user.generateAccessToken();
 
       return { accessToken }
       
@@ -45,7 +45,6 @@ const  signUp = asyncHandler(async(req, res) => {
     //check user already exist or not
      const isUserAlreadyExist = await User.findOne({email});
      if(isUserAlreadyExist){
-      console.log("Existing user:", isUserAlreadyExist);
         throw new ApiError(400, `user already exist`)
      }    
 
@@ -68,6 +67,7 @@ const  signUp = asyncHandler(async(req, res) => {
         password,
         role
      })
+     
      const createdUser = await User.findById(user?._id).select("-password");
      if(!createdUser){
       throw new ApiError(401, "created user not found");
@@ -119,7 +119,7 @@ const  signUp = asyncHandler(async(req, res) => {
       }
 
       // check password
-      const isPasswordCorrect = await User.isPasswordCorrect(password);
+      const isPasswordCorrect = await existedUser.isPasswordCorrect(password);
       if(!isPasswordCorrect){
          throw new ApiError(400, `wrong password`);
       }
@@ -132,13 +132,15 @@ const  signUp = asyncHandler(async(req, res) => {
          secure: false
       }
 
+      const user = await User.findById(existedUser?._id).select("-password");
+
       return res
       .status(200)
       .cookie("accessToken", accessToken, options)
       .json(
          new ApiResponse(
             200,
-            existedUser,
+            user,
             `logged in successfully`
          )
       )
@@ -166,7 +168,7 @@ const logout = asyncHandler(async(req, res) => {
 
       return res
       .status(200)
-      .clearcookie("accessToken", options)
+      .clearCookie("accessToken", options)
       .json(
          new ApiResponse(
             200,
