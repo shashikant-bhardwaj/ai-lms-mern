@@ -1,200 +1,154 @@
 import { asyncHandler } from "../middleware/user.middleware.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
-import validator from "validator"
+import validator from "validator";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-const generateAccessToken = async(userId) => {
-   try {
-      const user = await User.findById(userId)
-      if(!user){
-         throw new ApiError(401, `user not found while generating access token`);
-      }
+const generateAccessToken = async (userId) => {
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new ApiError(401, `user not found while generating access token`);
+    }
 
-      const accessToken = await user.generateAccessToken();
+    const accessToken = await user.generateAccessToken();
 
-      return { accessToken }
-      
-   } catch (error) {
-      throw new ApiError(500, `something went wrong while generating access token`)
-   }
-}
+    return { accessToken };
+  } catch (error) {
+    throw new ApiError(
+      500,
+      `something went wrong while generating access token`,
+    );
+  }
+};
 
-   //register or sinup
-const  signUp = asyncHandler(async(req, res) => {
-    //get user details from frontend
-    //validate
-    //check user  already exist?
-    // check email through validator
-    //strong password
-    // hash password
-    //user create and entry in db
-    // save user
-    //return res
-    
-    // getting details from frontend
-    const {fullName, username, email, password, role} = req.body;
+//register or sinup
+const signUp = asyncHandler(async (req, res) => {
+  //get user details from frontend
+  //validate
+  //check user  already exist?
+  // check email through validator
+  //strong password
+  // hash password
+  //user create and entry in db
+  // save user
+  //return res
 
-    //validate
-    if([fullName, username, password, role ].some((field) => 
-          field?.trim() === "")){
-            
-            throw new ApiError(400, `All fields are required`)
-          };
+  // getting details from frontend
+  const { fullName, username, email, password, role } = req.body;
 
-    //check user already exist or not
-     const isUserAlreadyExist = await User.findOne({email});
-     if(isUserAlreadyExist){
-        throw new ApiError(400, `user already exist`)
-     }    
+  //validate
+  if (
+    [fullName, username, password, role].some((field) => field?.trim() === "")
+  ) {
+    throw new ApiError(400, `All fields are required`);
+  }
 
-     //check email is valid or correct format
-     if(!validator.isEmail(email)){
-       throw new ApiError(400, `please enter valid email`)
-     }
-    
-     //check password strong
-     if(password.length < 8){
-        throw new ApiError(400, `create strong password, passord must be atleast of 8 numbers or characters`)
-     }
-     
+  //check user already exist or not
+  const isUserAlreadyExist = await User.findOne({ email });
+  if (isUserAlreadyExist) {
+    throw new ApiError(400, `user already exist`);
+  }
 
-      //creating user
-     const user = await User.create({
-        fullName,
-        username,
-        email,
-        password,
-        role
-     })
-     
-     const createdUser = await User.findById(user?._id).select("-password");
-     if(!createdUser){
-      throw new ApiError(401, "created user not found");
-     }
+  //check email is valid or correct format
+  if (!validator.isEmail(email)) {
+    throw new ApiError(400, `please enter valid email`);
+  }
 
-          // generating access token
+  //check password strong
+  if (password.length < 8) {
+    throw new ApiError(
+      400,
+      `create strong password, passord must be atleast of 8 numbers or characters`,
+    );
+  }
 
+  //creating user
+  const user = await User.create({
+    fullName,
+    username,
+    email,
+    password,
+    role,
+  });
 
-     return res
-     .status(200)
-     .json(
-        new ApiResponse(
-            200, 
-            createdUser,
-            "User registered successfully"
-        )
-     );
-})
+  const createdUser = await User.findById(user?._id).select("-password");
+  if (!createdUser) {
+    throw new ApiError(401, "created user not found");
+  }
 
+  // generating access token
 
-   //login
-   const login = asyncHandler(async(req, res) => {
-      //get user details from frontend
-      //validate 
-      //find user, if not exist give msg not registered yet
-      //check password- correct or not
-      //generate  access token
-      // return res
-      
-      //taking details from frontend
-      const {identifier, password} = req.body;
-      //validate
-      if(identifier?.trim() === ""){
-         throw new ApiError(400, `username or email is required`);
-      }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, createdUser, "User registered successfully"));
+});
 
-      if(!password){
-         throw new ApiError(400, `password is required`);
-      }
+//login
+const login = asyncHandler(async (req, res) => {
+  //get user details from frontend
+  //validate
+  //find user, if not exist give msg not registered yet
+  //check password- correct or not
+  //generate  access token
+  // return res
 
-      // find user
-      const existedUser = await User.findOne({
-         $or: [ 
-            {username: identifier}, {email: identifier}
-          ]
-      })
-      if(!existedUser){
-         throw new ApiError(401, `you aren't registered yet`);
-      }
+  //taking details from frontend
+  const { identifier, password } = req.body;
+  //validate
+  if (identifier?.trim() === "") {
+    throw new ApiError(400, `username or email is required`);
+  }
 
-      // check password
-      const isPasswordCorrect = await existedUser.isPasswordCorrect(password);
-      if(!isPasswordCorrect){
-         throw new ApiError(400, `wrong password`);
-      }
-      
-      //generating access token
-      const { accessToken } = await generateAccessToken(existedUser?._id);
-      
-      const options = {
-         httpOnly: true,
-         secure: false
-      }
+  if (!password) {
+    throw new ApiError(400, `password is required`);
+  }
 
-      const user = await User.findById(existedUser?._id).select("-password");
+  // find user
+  const existedUser = await User.findOne({
+    $or: [{ username: identifier }, { email: identifier }],
+  });
+  if (!existedUser) {
+    throw new ApiError(401, `you aren't registered yet`);
+  }
 
-      return res
-      .status(200)
-      .cookie("accessToken", accessToken, options)
-      .json(
-         new ApiResponse(
-            200,
-            user,
-            `logged in successfully`
-         )
-      )
+  // check password
+  const isPasswordCorrect = await existedUser.isPasswordCorrect(password);
+  if (!isPasswordCorrect) {
+    throw new ApiError(400, `wrong password`);
+  }
 
+  //generating access token
+  const { accessToken } = await generateAccessToken(existedUser?._id);
 
+  const options = {
+    httpOnly: true,
+    secure: false,
+  };
 
+  const user = await User.findById(existedUser?._id).select("-password");
 
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .json(new ApiResponse(200, user, `Logged in successfully`));
+});
 
+//logout
+const logout = asyncHandler(async (req, res) => {
+  // first verify user is authenticated by verifyJWT
+  //then find user by id
+  //clear cookie
 
+  const options = {
+    httpOnly: true,
+    secure: false,
+  };
 
-   })
+  return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .json(new ApiResponse(200, {}, `LogOut successfully`));
+});
 
-   
-
-   //logout
-const logout = asyncHandler(async(req, res) => {
-   // first verify user is authenticated by verifyJWT
-   //then find user by id
-   //clear cookie 
-
-    const options = {
-         httpOnly: true,
-         secure: false
-      }
-
-      return res
-      .status(200)
-      .clearCookie("accessToken", options)
-      .json(
-         new ApiResponse(
-            200,
-            {},
-            `logged out successfully`
-         )
-      )
-   
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export { 
-   signUp,
-   login,
-   logout
- }
+export { signUp, login, logout };
