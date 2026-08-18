@@ -17,9 +17,26 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // import router
+import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 
+//auth route
+app.use("/api/v1/auth", authRouter);
+
 //user route
-app.use("/api/v1/users", userRouter);
+app.use("/api/v1/users", userRouter )
+
+
+
+
+
+
+//error handler
+app.use((err, req, res, next) => {
+  res.status(err.statusCode || 500).json({
+    success: false,
+    message: err.message || "internal server error"
+  });
+});
 
 export { app };

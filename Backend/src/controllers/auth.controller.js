@@ -63,6 +63,7 @@ const signUp = asyncHandler(async (req, res) => {
     );
   }
 
+
   //creating user
   const user = await User.create({
     fullName,
@@ -72,6 +73,8 @@ const signUp = asyncHandler(async (req, res) => {
     role,
   });
 
+const { accessToken } = await generateAccessToken(user?._id);
+
   const createdUser = await User.findById(user?._id).select("-password");
   if (!createdUser) {
     throw new ApiError(401, "created user not found");
@@ -79,8 +82,24 @@ const signUp = asyncHandler(async (req, res) => {
 
   // generating access token
 
+
+
+// const user = await findById(createdUser?._id);
+// if(!user){
+//   throw new ApiError(
+//     401,
+//     "user not found"
+//   )
+// }
+
+const options = {
+  httpOnly: true,
+  secure: false
+}
+
   return res
     .status(200)
+    .cookie("accessToken", accessToken, options)
     .json(new ApiResponse(200, createdUser, "User registered successfully"));
 });
 
@@ -94,10 +113,10 @@ const login = asyncHandler(async (req, res) => {
   // return res
 
   //taking details from frontend
-  const { identifier, password } = req.body;
+  const { email, password } = req.body;
   //validate
-  if (identifier?.trim() === "") {
-    throw new ApiError(400, `username or email is required`);
+  if (email?.trim() === "") {
+    throw new ApiError(400, `email is required`);
   }
 
   if (!password) {
@@ -105,9 +124,7 @@ const login = asyncHandler(async (req, res) => {
   }
 
   // find user
-  const existedUser = await User.findOne({
-    $or: [{ username: identifier }, { email: identifier }],
-  });
+  const existedUser = await User.findOne({email});
   if (!existedUser) {
     throw new ApiError(401, `you aren't registered yet`);
   }

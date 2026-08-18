@@ -1,13 +1,34 @@
 import React , { useState }from "react";
-import logo from "../../public/logo.jpg"
+import logo from "../../public/logo.png"
 import google from "../assets/google.jpg"
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import useLogin from "../hooks/useLogin.js";
+import { ClipLoader } from "react-spinners";
 
 function Login() {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  const { login, loading } = useLogin();
+    const [user, setUser] = useState({
+    email: "",
+    password: ""
+  });
+
+  const onChange = (e) => {
+    const{name, value } = e.target;
+    setUser((prev) => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+  const onSubmitHandler = (e) => {
+  e.preventDefault();
+  login(user);
+
+}
+
   return (
     <>
       <div
@@ -15,7 +36,7 @@ function Login() {
            items-center justify-center"
       >
         <form
-          action=""
+          onSubmit={onSubmitHandler}
           className="w-[90%] md:w-200 h-150 bg-[white] shadow-xl
            rounded-2xl flex"
         >
@@ -42,6 +63,9 @@ function Login() {
               <input
                 id="email"
                 type="text"
+                name="email"
+                value={user.email}
+                onChange={onChange}
                 className="border-1 w-[100%] h-[35px]
                border-[#e7e6e6] text-[15px] px-[20px]"
                 placeholder="your email"
@@ -56,6 +80,9 @@ function Login() {
               </label>
               <input
                 id="password"
+                name="password"
+                value={user.password}
+                onChange={onChange}
                 type={show ? "text" : "password"}
                 className="border-1 w-[100%] h-[35px]
                border-[#e7e6e6] text-[15px] px-[20px]"
@@ -76,10 +103,11 @@ function Login() {
               )}
             </div>
             <button
+              disabled={loading}
               className="w-[80%] h-[40px] bg-black text-white cursor-pointer
               cursor-pointer flex items-center justify-center rounded-[5px]"
             >
-              Login
+              { loading ? <ClipLoader size={30} color="white"/> : "Login"} 
             </button>
             <span className="text-[13px] cursor-pointer text-[#585757]">
                 Forget your password ?
@@ -112,12 +140,12 @@ function Login() {
             className="w-[50%] h-[100%] rounded-r-2xl bg-[black] 
            md:flex items-center justify-center flex-col hidden"
           >
-            <img src={logo} alt="logo" className="w-30 shadow-2xl" />
+            <img src={logo} alt="logo" className="w-50 shadow-2xl" />
             <span
               className="text-2xl text-white
                "
             >
-              VIRTUAL COURSES
+              LearnPilot
             </span>
           </div>
         </form>

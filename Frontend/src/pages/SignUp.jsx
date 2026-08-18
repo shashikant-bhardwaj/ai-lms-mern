@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../../public/logo.jpg";
+import logo from "../../public/logo.png";
 import google from "../assets/google.jpg";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEye } from "react-icons/io5";
@@ -201,12 +201,12 @@ function SignUp() {
             className="w-[50%] h-[100%] rounded-r-2xl bg-[black] 
         md:flex items-center justify-center flex-col hidden"
           >
-            <img src={logo} alt="logo" className="w-30 shadow-2xl" />
+            <img src={logo} alt="logo" className="w-50 shadow-2xl" />
             <span
               className="text-2xl text-white
             "
             >
-              VIRTUAL COURSES
+              LearnPilot
             </span>
           </div>
         </form>

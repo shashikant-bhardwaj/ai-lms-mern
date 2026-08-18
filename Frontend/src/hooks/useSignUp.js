@@ -9,14 +9,14 @@ function UseSignUp() {
   const signUp = async (userData) => {
     setLoading(true);
     try {
-      const res = await api.post("/users/signup",userData);
+      const res = await api.post("/auth/signup",userData);
       console.log(res); 
       setLoading(false);
       navigate("/")
        toast.success("signup successfully")
 
     } catch (error) {
-        console.log(error.res)
+        toast.error(error.response?.data?.message)
        
     }finally{
          setLoading(false);
