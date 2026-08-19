@@ -7,7 +7,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 //get current user
 const getCurrentUser = asyncHandler(async(req, res) => {
 
-    const currentUser = await User.findById(req.user?._id);
+    const currentUser = await User.findById(req.user?._id).select("-password");
     console.log(currentUser);
     if(!currentUser){
         throw ApiError(401, "current user not found")

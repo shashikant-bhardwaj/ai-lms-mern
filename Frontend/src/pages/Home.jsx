@@ -1,10 +1,14 @@
 import React from 'react'
-import UseGetCurrentUser from '../hooks/useGetCurrentUser'
+import { Navbar } from '../components/Navbar.jsx';
+import UseGetCurrentUser from "../hooks/useGetCurrentUser.js"
 function Home() {
-UseGetCurrentUser();
+      UseGetCurrentUser();
+      console.log("HOME MOUNTED");
+
     return (
         <div className='text-2xl'>
-            Home page
+             <Navbar/>
+            
         </div>
     )
 }

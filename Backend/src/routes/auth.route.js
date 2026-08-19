@@ -9,6 +9,6 @@ router.route("/signup").post(signUp);
 router.route("/login").post(login);
 
 //secure routes
-router.route(`/logout`).post(verifyJWT, logout);
+router.route("/logout").post(verifyJWT, logout);
 
 export default router;
