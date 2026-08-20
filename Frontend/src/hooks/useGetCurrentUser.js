@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from "react-redux"
 import { setAuthUser } from "../redux/features/userSlice.js";
 
-function UseGetCurrentUser() {
+function useGetCurrentUser() {
      const dispatch = useDispatch();
      dispatch(setAuthUser(null))
 
@@ -22,4 +22,4 @@ function UseGetCurrentUser() {
      }, [])
 }
 
-export default UseGetCurrentUser
+export default useGetCurrentUser
