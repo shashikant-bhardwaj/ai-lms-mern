@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import validator from "validator";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import sendMail from "../utils/sendMail/sendMail.js";
 
 const generateAccessToken = async (userId) => {
   try {
@@ -168,4 +169,91 @@ const logout = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, `LogOut successfully`));
 });
 
-export { signUp, login, logout };
+// send otp controller
+const  sendOTP = asyncHandler(async(req, res) => {
+     const { email } = req.body;
+     const user = await User.findOne({email})
+     if(!user){
+      throw new ApiError(401, "user not found for reset password")
+     }
+     const otp = Math.floor(Math.random()*(9999-1000+1)) + 1000;
+     user.passResetOtp = otp;
+     user.otpExpires = Date.now() +5 * 60 * 1000;
+     user.isOtpVerified = false
+     
+     await user.save();
+     await sendMail(email, otp);
+
+     return res
+     .status(200)
+     .json(
+      new ApiResponse(
+        200,
+        {},
+        "Otp Sent Successfully"
+      )
+     )
+})
+
+// verify Otp controller
+const verifyOTP = asyncHandler(async(req, res) => {
+  const { email, otp } = req.body;
+  const user = User.findOne({email});
+  if(!user){
+    throw new ApiError(401, "user not found during otp verification")
+  };
+
+  if(user.passResetOtp != otp || user.otpExpires < Date.now()){
+    throw new ApiError(400, "Invalid OTP")
+  };
+
+  user.isOtpVerified = true;
+  user.resetOtp = undefined;
+  user.otpExpires = undefined;
+
+  await user.save();
+
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(
+      200,
+      {},
+      "Otp Verified Successfully"
+    )
+  )
+
+})
+
+// reset password
+
+const resetPassword = asyncHandler(async(req, res) => {
+  const { email, password } = req.body;
+
+  const user = await findOne({ email });
+
+  if(!user || !user.isOtpVerified){
+    throw new ApiError(400, "OTP Verification is required")
+  }
+
+  user.password = password;
+  user.isOtpVerified = false;
+
+  await user.save();
+
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(
+      200,
+      {},
+      "Reset Password Successfully"
+    )
+  )
+})
+
+
+
+
+
+export { signUp, login, logout, sendOTP, verifyOTP, resetPassword };

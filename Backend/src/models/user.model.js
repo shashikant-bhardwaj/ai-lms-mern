@@ -35,6 +35,16 @@ const userSchema = new Schema(
         ref: "Course",
       },
     ],
+    passResetOtp: {
+      type: String
+    },
+    otpExpires: {
+      type: Date
+    },
+    isOtpVerified: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true,
