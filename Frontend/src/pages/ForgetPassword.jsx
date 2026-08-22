@@ -1,9 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"
-
+import UseSendOtp from "../hooks/useSendOtp.js";
+import { ClipLoader } from "react-spinners"
 function ForgetPassword() {
+  const { loading , sendOtp} = UseSendOtp();
   const [step, setStep] = useState(3);
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [conPassword, setConPassword] = useState("");
+ 
+  const clickSendOtp = (e) => {
+    sendOtp(email);
+  }
+
+  // for step 1
+ 
+
   return (
     <div
       className="min-h-screen flex items-center justify-center
@@ -14,18 +28,18 @@ function ForgetPassword() {
       w-full">
         <h2 className="text-2xl font-bold mb-6 text-center
         text-gray-800">Forget Your Password</h2>
-       <form className="space-y-4">
+       <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
         <div>
           <label htmlFor="email" className="block text-sm font-medium
           text-gray-700">
            Enter your email address
           </label>
-          <input id="email" type="text"  className="mt-1 w-full
+          <input onChange={(e) => setEmail(e.target.value)} id="email" type="text" value={email} className="mt-1 w-full
           px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none
           focus:ring-2 focus:ring-[black]" required placeholder="you@example.com"/>
         </div>
-        <button className="w-full bg-[black] hover:bg-[#4b4b4b] 
-        text-white py-2 px-4 rounded-md font-medium cursor-pointer">Send OTP</button>
+        <button disabled={loading} onClick={sendOtp} className="w-full bg-[black] hover:bg-[#4b4b4b] 
+        text-white py-2 px-4 rounded-md font-medium cursor-pointer">{loading ? <ClipLoader size={30} color="white"/> : "Send OTP"}</button>
        </form>
        <div onClick={() => navigate("/login")} className="text-sm text-center mt-4 hover:underline cursor-pointer">Back to Login</div>
         </div>}
