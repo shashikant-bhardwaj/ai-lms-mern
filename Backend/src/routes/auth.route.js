@@ -10,8 +10,8 @@ router.route("/login").post(login);
 
 //secure routes
 router.route("/logout").post(verifyJWT, logout);
-router.route("/sendotp").post(verifyJWT, sendOTP)
-router.route("/verifyotp").post(verifyJWT, verifyOTP)
-router.route("/resetpassword").post(verifyJWT, resetPassword)
+router.route("/sendotp").post(sendOTP)
+router.route("/verifyotp").post(verifyOTP)
+router.route("/resetpassword").post(resetPassword)
 
 export default router;

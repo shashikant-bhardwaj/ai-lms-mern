@@ -198,7 +198,7 @@ const  sendOTP = asyncHandler(async(req, res) => {
 // verify Otp controller
 const verifyOTP = asyncHandler(async(req, res) => {
   const { email, otp } = req.body;
-  const user = User.findOne({email});
+  const user = await User.findOne({email});
   if(!user){
     throw new ApiError(401, "user not found during otp verification")
   };
@@ -230,7 +230,7 @@ const verifyOTP = asyncHandler(async(req, res) => {
 const resetPassword = asyncHandler(async(req, res) => {
   const { email, password } = req.body;
 
-  const user = await findOne({ email });
+  const user = await User.findOne({ email });
 
   if(!user || !user.isOtpVerified){
     throw new ApiError(400, "OTP Verification is required")

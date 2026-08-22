@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 import React from 'react'
 
 function UseSendOtp() {
-    const [loading, setLoading] = useState("");
+    const [loading, setLoading] = useState(false);
     
     const sendOtp = async(email) => {
         setLoading(true);
@@ -17,6 +17,8 @@ function UseSendOtp() {
         } catch (error) {
             console.log(error);
             toast.error(error.response?.data.message)
+        }finally{
+            setLoading(false);
         }
 
     }
