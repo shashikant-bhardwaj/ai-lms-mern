@@ -12,11 +12,12 @@ function UseVerifyOtp() {
         try {
             const res = await api.post("auth/verifyotp", {email, otp})
             setLoading2(false);
-            toast.success(res?.data?.data?.message);
+            toast.success(res?.data?.message);
         } catch (error) {
             console.log(error);
             setLoading2(false);
             toast.error(error.response?.data?.message);
+            throw error;
         }finally{
             setLoading2(false)
         }

@@ -11,12 +11,12 @@ function UseSendOtp() {
         setLoading(true);
         try {
             const res = await api.post("/auth/sendotp", {email});
-            console.log(res?.data.data);
             setLoading(false);
-            toast.success(res?.data?.data?.message);
+            toast.success(res?.data?.message);
         } catch (error) {
             console.log(error);
             toast.error(error.response?.data.message)
+            throw error;
         }finally{
             setLoading(false);
         }

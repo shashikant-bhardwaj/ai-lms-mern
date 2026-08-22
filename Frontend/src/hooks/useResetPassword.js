@@ -12,7 +12,7 @@ function UseResetPassword() {
     try {
         const res = await api.post("/auth/resetpassword", {email, password: password});
         setLoading3(false);
-        toast.success(res?.data?.data?.message);
+        toast.success(res?.data?.message);
     } catch (error) {
         console.log(error);
         toast.error(error.response?.data?.message);
