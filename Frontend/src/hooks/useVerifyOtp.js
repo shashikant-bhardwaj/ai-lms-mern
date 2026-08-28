@@ -19,7 +19,7 @@ function UseVerifyOtp() {
             toast.error(error.response?.data?.message);
             throw error;
         }finally{
-            setLoading2(false)
+            setLoading2(false);
         }
     }
     return { loading2, verifyOtp }

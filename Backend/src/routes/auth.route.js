@@ -7,11 +7,12 @@ const router = Router();
 //routes
 router.route("/signup").post(signUp);
 router.route("/login").post(login);
-
-//secure routes
-router.route("/logout").post(verifyJWT, logout);
 router.route("/sendotp").post(sendOTP)
 router.route("/verifyotp").post(verifyOTP)
 router.route("/resetpassword").post(resetPassword)
+
+//secure routes
+router.route("/logout").post(verifyJWT, logout);
+
 
 export default router;

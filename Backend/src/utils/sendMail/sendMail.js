@@ -20,7 +20,7 @@ const sendMail = async(to, otp) => {
     from: process.env.USER_EMAIL, // sender address
     to: to, // list of recipients
     subject: "Reset your password", // subject line
-    html: `<p>Your OTP for  Reset Password is <b>${otp}</b>\n
+    html: `<p>Your OTP for  Reset Password is <b>${otp}</b><br>
     It expires in 5 minutes.</p>`, // HTML body
   });
 }
