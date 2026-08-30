@@ -6,6 +6,10 @@ import { IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import useSignUp from "../hooks/useSignUp.js";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../utils/firebase.js";
+import useGoogleSignUp from "../hooks/useGoogleSignUp.js";
+import { toast } from "react-toastify";
 function SignUp() {
   const { signUp, loading } = useSignUp();
   const [show, setShow] = useState(false);
@@ -30,6 +34,12 @@ function SignUp() {
     e.preventDefault();
     signUp(user);
   };
+  
+  // google signup
+  const { googleSignUp } = useGoogleSignUp();
+  const onGoogleClick = () => {
+   googleSignUp(user.role);
+  }
 
   return (
     <>
@@ -178,7 +188,8 @@ function SignUp() {
               <div className="w-[25%] h-[0.5px] bg-[#c4c4c4]"></div>
             </div>
             <div
-              className="w-[80%] h-[40px] border-1 border-[black]
+              onClick={onGoogleClick}
+              className=" w-[80%] h-[40px] border-1 border-[black]
            rounded-[5px] flex justify-center items-center"
             >
               <img src={google} alt="" className="w-[25px]" />

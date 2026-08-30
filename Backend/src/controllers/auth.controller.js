@@ -64,7 +64,6 @@ const signUp = asyncHandler(async (req, res) => {
     );
   }
 
-
   //creating user
   const user = await User.create({
     fullName,
@@ -72,9 +71,10 @@ const signUp = asyncHandler(async (req, res) => {
     email,
     password,
     role,
+    authProvider: "local"
   });
 
-const { accessToken } = await generateAccessToken(user?._id);
+  const { accessToken } = await generateAccessToken(user?._id);
 
   const createdUser = await User.findById(user?._id).select("-password");
   if (!createdUser) {
@@ -83,20 +83,18 @@ const { accessToken } = await generateAccessToken(user?._id);
 
   // generating access token
 
+  // const user = await findById(createdUser?._id);
+  // if(!user){
+  //   throw new ApiError(
+  //     401,
+  //     "user not found"
+  //   )
+  // }
 
-
-// const user = await findById(createdUser?._id);
-// if(!user){
-//   throw new ApiError(
-//     401,
-//     "user not found"
-//   )
-// }
-
-const options = {
-  httpOnly: true,
-  secure: false
-}
+  const options = {
+    httpOnly: true,
+    secure: false,
+  };
 
   return res
     .status(200)
@@ -125,7 +123,7 @@ const login = asyncHandler(async (req, res) => {
   }
 
   // find user
-  const existedUser = await User.findOne({email});
+  const existedUser = await User.findOne({ email });
   if (!existedUser) {
     throw new ApiError(401, `you aren't registered yet`);
   }
@@ -170,42 +168,36 @@ const logout = asyncHandler(async (req, res) => {
 });
 
 // send otp controller
-const  sendOTP = asyncHandler(async(req, res) => {
-     const { email } = req.body;
-     const user = await User.findOne({email})
-     if(!user){
-      throw new ApiError(401, "user not found for reset password")
-     }
-     const otp = Math.floor(Math.random()*(9999-1000+1)) + 1000;
-     user.passResetOtp = otp;
-     user.otpExpires = Date.now() +5 * 60 * 1000;
-     user.isOtpVerified = false
-     
-     await user.save();
-     await sendMail(email, otp);
+const sendOTP = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new ApiError(401, "user not found for reset password");
+  }
+  const otp = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+  user.passResetOtp = otp;
+  user.otpExpires = Date.now() + 5 * 60 * 1000;
+  user.isOtpVerified = false;
 
-     return res
-     .status(200)
-     .json(
-      new ApiResponse(
-        200,
-        {},
-        "Otp Sent Successfully"
-      )
-     )
-})
+  await user.save();
+  await sendMail(email, otp);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Otp Sent Successfully"));
+});
 
 // verify Otp controller
-const verifyOTP = asyncHandler(async(req, res) => {
+const verifyOTP = asyncHandler(async (req, res) => {
   const { email, otp } = req.body;
-  const user = await User.findOne({email});
-  if(!user){
-    throw new ApiError(401, "user not found during otp verification")
-  };
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new ApiError(401, "user not found during otp verification");
+  }
 
-  if(user.passResetOtp != otp || user.otpExpires < Date.now()){
-    throw new ApiError(400, "Invalid OTP")
-  };
+  if (user.passResetOtp != otp || user.otpExpires < Date.now()) {
+    throw new ApiError(400, "Invalid OTP");
+  }
 
   user.isOtpVerified = true;
   user.resetOtp = undefined;
@@ -214,26 +206,19 @@ const verifyOTP = asyncHandler(async(req, res) => {
   await user.save();
 
   return res
-  .status(200)
-  .json(
-    new ApiResponse(
-      200,
-      {},
-      "Otp Verified Successfully"
-    )
-  )
-
-})
+    .status(200)
+    .json(new ApiResponse(200, {}, "Otp Verified Successfully"));
+});
 
 // reset password
 
-const resetPassword = asyncHandler(async(req, res) => {
+const resetPassword = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
 
-  if(!user || !user.isOtpVerified){
-    throw new ApiError(400, "OTP Verification is required")
+  if (!user || !user.isOtpVerified) {
+    throw new ApiError(400, "OTP Verification is required");
   }
 
   user.password = password;
@@ -242,18 +227,91 @@ const resetPassword = asyncHandler(async(req, res) => {
   await user.save();
 
   return res
-  .status(200)
-  .json(
-    new ApiResponse(
-      200,
-      {},
-      "Reset Password Successfully"
-    )
-  )
-})
+    .status(200)
+    .json(new ApiResponse(200, {}, "Reset Password Successfully"));
+});
+
+// google signup
+const googleSignUp = asyncHandler(async (req, res) => {
+
+    const { fullName, email, firebaseUid, role  } = req.body;
+    let user = await User.findOne({ email });
+    if(user){
+      throw new ApiError(409,  "You are already registered. Please login instead.")
+    }
+    if (!role){
+      throw new ApiError(400, "role is required")
+    }
+      user = await User.create({
+        fullName,
+        email,
+        firebaseUid,
+        role,
+        authProvider: "google"
+      });
+    
+    const { accessToken } = await generateAccessToken(user?._id);
+
+    const createdOrExistedUser = await User.findOne({firebaseUid});
+    if (!createdOrExistedUser) {
+      throw new ApiError(
+        401,
+        "user not found while google authetication",
+      );
+    }
+
+    const options = {
+      httpOnly: true,
+      secure: false,
+    };
+
+    return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        createdOrExistedUser,
+        "Google Authentication Completed"
+      )
+    );
+});
+
+// google login
+const googleLogin = asyncHandler(async (req, res) => {
+
+    const { firebaseUid } = req.body;
+    const user = await User.findOne({ firebaseUid });
+    if (!user) {
+     throw new ApiError(401,  "You aren't registered yet. Please sign up first.");
+    }
+    const { accessToken } = await generateAccessToken(user?._id);
+
+    const existedUser = await User.findOne({firebaseUid});
+    if (!existedUser) {
+      throw new ApiError(
+        401,
+        "user not found while google authetication",
+      );
+    }
+
+    const options = {
+      httpOnly: true,
+      secure: false,
+    };
+
+    return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        existedUser,
+        "Google Login Completed"
+      )
+    );
+});
 
 
 
-
-
-export { signUp, login, logout, sendOTP, verifyOTP, resetPassword };
+export { signUp, login, logout, sendOTP, verifyOTP, resetPassword, googleSignUp, googleLogin };

@@ -6,6 +6,7 @@ import { IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin.js";
 import { ClipLoader } from "react-spinners";
+import useGoogleLogin from "../hooks/useGoogleLogin.js";
 
 function Login() {
   const [show, setShow] = useState(false);
@@ -28,6 +29,12 @@ function Login() {
   login(user);
 
 }
+
+  // // google Login
+  const { googleLogin } = useGoogleLogin();
+  const onGoogleClick = () => {
+   googleLogin();
+  }
 
   return (
     <>
@@ -123,6 +130,7 @@ function Login() {
               <div className="w-[25%] h-[0.5px] bg-[#c4c4c4]"></div>
             </div>
             <div
+              onClick={onGoogleClick}
               className="w-[80%] h-[40px] border-1 border-[black]
               rounded-[5px] flex justify-center items-center"
             >

@@ -14,9 +14,21 @@ const userSchema = new Schema(
       required: true,
       tolowercase: true,
     },
+    firebaseUid: {
+      type: String,
+      unique:  true,
+      sparse: true  
+     },
+    authProvider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "local"
+    },
     password: {
       type: String,
-      required: true,
+      required: function() {
+        return this.authProvider === "local"
+      },
     },
     description: {
       type: String,
