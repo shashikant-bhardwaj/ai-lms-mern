@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/features/userSlice.js";
 
-function UseLogout() {
+function useLogout() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -30,4 +30,4 @@ function UseLogout() {
    
 }
 
-export default UseLogout
+export default useLogout

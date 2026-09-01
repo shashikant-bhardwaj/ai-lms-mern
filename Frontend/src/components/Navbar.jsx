@@ -3,7 +3,7 @@ import logo from "../../public/logo.png";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
-import UseLogout from "../hooks/useLogout";
+import useLogout from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross1 } from "react-icons/rx";
@@ -13,7 +13,7 @@ function Navbar() {
   const [show, setShow] = useState(false);
   const [showHam, setShowHam] = useState(false);
   const { authUser } = useSelector((state) => state.user);
-  const { loading, logout } = UseLogout();
+  const { loading, logout } = useLogout();
   const navigate = useNavigate();
 
   return (

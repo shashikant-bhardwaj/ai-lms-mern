@@ -15,7 +15,7 @@ function useGoogleLogin() {
     const googleLogin = async() => {
         try {
             const response = await signInWithPopup(auth, provider);
-            let user = await response?.user
+            let user = response?.user
             let firebaseUid = user?.uid;
             const res = await api.post("/auth/google-login", 
                 {
@@ -25,7 +25,7 @@ function useGoogleLogin() {
             );
             dispatch(setAuthUser(res?.data?.data));
             navigate("/");
-            toast.success("signup successfully")
+            toast.success("Logged In successfully")
         } catch (error) {
             toast.error(error?.response?.data?.message);
         }
