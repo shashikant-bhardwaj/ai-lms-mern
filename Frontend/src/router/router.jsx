@@ -8,6 +8,7 @@ import Profile from "../pages/Profile.jsx";
 import ProtectedRoute from "./protectedRoute/ProtectedRoute.jsx";
 import ForgetPassword from "../pages/ForgetPassword.jsx";
 import PublicRoute from "./publicRoute/PublicRoute.jsx";
+import EditProfile from "../pages/EditProfile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
           {
             path: "profile",
             element: <Profile />,
+          },
+          {
+            path: "editprofile",
+            element: <EditProfile />,
           },
         ],
       },

@@ -1,10 +1,15 @@
 import React from 'react'
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { TiArrowLeftThick } from "react-icons/ti";
 function Profile() {
     const { authUser } = useSelector(state => state.user)
+    const navigate = useNavigate();
     return (
         <div className='min-h-screen bg-gray-100 px-4 py-10 flex items-center justify-center'>
              <div className='bg-white shadow-lg rounded-2xl p-8 max-w-xl w-full relative'>
+                <TiArrowLeftThick className='absolute top-[8%] left-[5%] w-[22px] h-[22px] 
+                cursor-pointer' onClick={() => navigate("/")}/>
                 <div className='flex flex-col items-center text-center'>
                 {authUser?.photoUrl ?
                  <img src={authUser?.photoUrl} className='w-24 h-24 rounded-full object-cover
@@ -19,18 +24,24 @@ function Profile() {
                 </div>
 
                 <div className='mt-6 space-y-4'>
-                    <div className='text-sm'>
-                        <span>Email:</span>
+                    <div className='text-sm flex items-center justify-start gap-1'>
+                        <span className='font-semibold text-gray-700'>Email:</span>
                         <span>{authUser?.email}</span>
                     </div>
-                    <div className='text-sm'>
-                        <span>Bio:</span>
+                    <div className='text-sm flex items-center justify-start gap-1'>
+                        <span className='font-semibold text-gray-700'>Bio:</span>
                         <span>{authUser?.description}</span>
                     </div>
-                    <div className='text-sm'>
-                        <span>Enrolled Courses:</span>
+                    <div className='text-sm flex items-center justify-start gap-1'>
+                        <span className='font-semibold text-gray-700'>Enrolled Courses:</span>
                         <span>{authUser?.enrolledCourses?.length}</span>
                     </div>
+                </div>
+                <div className='mt-6 flex justify-center gap-4'>
+                    <button onClick={() => navigate("/editprofile")} className='px-5 py-2 rounded bg-[black] text-white 
+                    active:bg-[#4b4b4b] cursor-pointer transition'>
+                        Edit Profile
+                    </button>
                 </div>
 
              </div>
