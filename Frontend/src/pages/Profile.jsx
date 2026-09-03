@@ -1,8 +1,40 @@
 import React from 'react'
-
+import { useSelector } from "react-redux"
 function Profile() {
+    const { authUser } = useSelector(state => state.user)
     return (
-        <div>profile</div>
+        <div className='min-h-screen bg-gray-100 px-4 py-10 flex items-center justify-center'>
+             <div className='bg-white shadow-lg rounded-2xl p-8 max-w-xl w-full relative'>
+                <div className='flex flex-col items-center text-center'>
+                {authUser?.photoUrl ?
+                 <img src={authUser?.photoUrl} className='w-24 h-24 rounded-full object-cover
+                border-4 border-black' alt="" /> :
+                <div className='w-24 h-24 rounded-full text-white flex items-center 
+                 justify-center text-[30px] border-2 bg-black border-white'> 
+                   {authUser?.fullName?.slice(0,1).toUpperCase()}
+                   </div> }
+
+                   <h2 className='text-2xl font-bold mt-4 text-gray-800'>{authUser?.fullName}</h2>
+                   <p className='text-sm text-gray-500'>{authUser?.role}</p>
+                </div>
+
+                <div className='mt-6 space-y-4'>
+                    <div className='text-sm'>
+                        <span>Email:</span>
+                        <span>{authUser?.email}</span>
+                    </div>
+                    <div className='text-sm'>
+                        <span>Bio:</span>
+                        <span>{authUser?.description}</span>
+                    </div>
+                    <div className='text-sm'>
+                        <span>Enrolled Courses:</span>
+                        <span>{authUser?.enrolledCourses?.length}</span>
+                    </div>
+                </div>
+
+             </div>
+        </div>
     )
 }
 
