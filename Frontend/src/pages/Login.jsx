@@ -132,7 +132,7 @@ function Login() {
             <div
               onClick={onGoogleClick}
               className="w-[80%] h-[40px] border-1 border-[black]
-              rounded-[5px] flex justify-center items-center"
+              rounded-[5px] flex justify-center items-center active:bg-[#ebe5e5] cursor-pointer transition"
             >
               <img src={google} alt="" className="w-[25px]" />
               <span className="text-[18px] text-gray-500">oogle</span>

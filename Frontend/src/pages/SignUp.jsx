@@ -190,7 +190,7 @@ function SignUp() {
             <div
               onClick={onGoogleClick}
               className=" w-[80%] h-[40px] border-1 border-[black]
-           rounded-[5px] flex justify-center items-center"
+           rounded-[5px] flex justify-center items-center cursor-pointer active:bg-[#ebe5e5]  transition"
             >
               <img src={google} alt="" className="w-[25px]" />
               <span className="text-[18px] text-gray-500">oogle</span>

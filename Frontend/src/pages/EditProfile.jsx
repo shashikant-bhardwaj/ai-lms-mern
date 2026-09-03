@@ -56,7 +56,7 @@ function EditProfile() {
                     name='fullName'
                     value={data.fullName}
                     placeholder={authUser?.fullName}
-                    className='w-full px-4 py-2 border rounded-md text-sm active:bg-[#ebe5e5] cursor-pointer transition'/>
+                    className='w-full px-4 py-2 border rounded-md text-sm'/>
                 </div>
                 <div >
                     <label  className='text-sm font-medium text-gray-700'>Email</label>
