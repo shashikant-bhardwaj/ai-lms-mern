@@ -5,6 +5,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
+
 //get current user
 const getCurrentUser = asyncHandler(async(req, res) => {
 
@@ -35,8 +36,8 @@ const updateProfile = asyncHandler(async(req, res) => {
     };
 
     let profileLocalPath;
-    if(req.file?.avatar?.[0].path){
-        profileLocalPath = req.file?.avatar?.[0]?.path
+    if(req.files?.avatar?.[0].path){
+        profileLocalPath = req.files?.avatar?.[0]?.path
         //upload photo on cloudinary
         const photoUrl = await uploadOnCloudinary(profileLocalPath);
         if(!photoUrl?.url){

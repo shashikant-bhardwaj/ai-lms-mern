@@ -33,7 +33,8 @@ function Navbar() {
               className="w-[50px] h-[50px] fill-black cursor-pointer"
             />
           )}
-          {authUser && (
+          {authUser ? <img src={authUser?.photoUrl}  onClick={() => setShow((prev) => !prev)} className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black border-white
+           cursor-pointer"/> : (
             <div
               onClick={() => setShow((prev) => !prev)}
               className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black border-white
@@ -83,7 +84,7 @@ function Navbar() {
         </div>
         <RxHamburgerMenu
           onClick={() => setShowHam((prev) => !prev)}
-          className="w-[40px] h-[40px] lg:hidden fill-black cursor-pointer"
+          className="w-[40px] h-[40px] lg:hidden text-white cursor-pointer"
         />
         {
           <div
@@ -99,7 +100,8 @@ function Navbar() {
               className="w-[50px] h-[50px] fill-black cursor-pointer"
             />
           )}
-          {authUser && (
+          {authUser ? <img src={authUser?.photoUrl} className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black border-white
+           cursor-pointer"/> : (
             <div
               className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black border-white
            cursor-pointer"

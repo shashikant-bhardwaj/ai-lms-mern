@@ -8,7 +8,7 @@ const router = Router();
 
 //secure routes
 router.route("/current-user").get(verifyJWT, getCurrentUser);
-router.route("/update-profile").post(upload.fields([{name: "avatar", maxCount: 1}]), updateProfile)
+router.route("/update-profile").post(verifyJWT, upload.fields([{name: "avatar", maxCount: 1}]), updateProfile)
 
 export default router;
 
