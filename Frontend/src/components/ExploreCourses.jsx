@@ -12,12 +12,12 @@ import { SiGooglegemini } from "react-icons/si";
 function ExploreCourses() {
   return (
     <div
-      className="w-[100vw] min-h-[50vh] lg:h-[50vh] flex 
+      className="w-full min-h-[50vh] lg:h-[50vh] flex 
         flex-col lg:flex-row  items-center justify-center gap-4 pt-[90px] px-[30px]"
     >
       {/* {left/top div} */}
       <div
-        className="w-[100%] lg:w-[350px] lg:h[100%] h-[400px] 
+        className="w-[100%] lg:w-[350px] lg:h-[100%] h-[400px] 
             flex flex-col items-start  justify-center gap-1 md:px-[40px]
              px-[20px]"
       >
@@ -36,9 +36,21 @@ function ExploreCourses() {
         fill-white'/></button>
       </div>
       {/* {right/bottom div} */}
-      <div className="mt-[30px] w-[720px] max-w-[90%] lg:h-[300px] mid-min-h[300px]
-      flex items-center justify-center lg:gap-[60px] gap-[50px] 
-      flex-wrap mb-[50px] lg:mb-[0px]">
+     <div className="
+    mt-[30px]
+    w-full
+    max-w-[720px]
+    lg:h-[300px]
+    min-h-[300px]
+    flex
+    items-center
+    justify-center
+    lg:gap-[60px]
+    gap-[50px]
+    flex-wrap
+    mb-[50px]
+    lg:mb-0
+">
         <div className="w-[100px] h-[130px] font-light text-[13px] 
         flex flex-col gap-3 text-center">
             <div className="w-[100px] h-[90px] bg-[#fbd9fb]
@@ -59,7 +71,7 @@ function ExploreCourses() {
         flex flex-col gap-3 text-center">
             <div className="w-[100px] h-[90px] bg-[#fab4c0]
             rounded-lg flex items-center justify-center">
-             <MdAppShortcut className="w-[60px] h-[60px] text-[#6d6c6c]"/>
+             <MdAppShortcut className="w-[50px] h-[50px] text-[#6d6c6c]"/>
             </div>
             App Dev
         </div>
@@ -67,7 +79,7 @@ function ExploreCourses() {
         flex flex-col gap-3 text-center">
             <div className="w-[100px] h-[90px] bg-[#c596f8]
             rounded-lg flex items-center justify-center">
-             <FaHackerrank className="w-[60px] h-[60px] text-[#6d6c6c]"/>
+             <FaHackerrank className="w-[55px] h-[55px] text-[#6d6c6c]"/>
             </div>
             Ethical Hacking
         </div>
@@ -83,7 +95,7 @@ function ExploreCourses() {
         flex flex-col gap-3 text-center">
             <div className="w-[100px] h-[90px] bg-[#f79caa]
             rounded-lg flex items-center justify-center">
-             <SiGoogledataproc className="w-[60px] h-[60px] text-[#6d6c6c]"/>
+             <SiGoogledataproc className="w-[50px] h-[50px] text-[#6d6c6c]"/>
             </div>
             Data Science
         </div>
@@ -91,7 +103,7 @@ function ExploreCourses() {
         flex flex-col gap-3 text-center">
             <div className="w-[100px] h-[90px] bg-[#c596f8]
             rounded-lg flex items-center justify-center">
-             <BsClipboardDataFill className="w-[60px] h-[60px] text-[#6d6c6c]"/>
+             <BsClipboardDataFill className="w-[50px] h-[50px] text-[#6d6c6c]"/>
             </div>
             Data Analytics
         </div>
@@ -99,7 +111,7 @@ function ExploreCourses() {
         flex flex-col gap-3 text-center">
             <div className="w-[100px] h-[90px] bg-[#fbd9fb]
             rounded-lg flex items-center justify-center">
-             <SiGooglegemini className="w-[60px] h-[60px] text-[#6d6c6c]"/>
+             <SiGooglegemini className="w-[50px] h-[50px] text-[#6d6c6c]"/>
             </div>
             AI Tools
         </div>

@@ -18,8 +18,8 @@ function Navbar() {
 
   return (
     <div>
-      <div className="w-[100%] h-[70px] fixed top-0 px-[20px] py-[10px] flex items-center justify-between bg-[#00000047] z-10">
-        <div className="lg:w-[20%] w-{40%] lg:pl-[50px]">
+      <div className="w-full h-[70px] fixed top-0 px-[20px] py-[10px] flex items-center justify-between bg-[#00000047] z-10">
+        <div className="lg:w-[20%] w-[40%] lg:pl-[50px]">
           <img
             src={logo}
             alt=""
@@ -88,7 +88,7 @@ function Navbar() {
         />
         {
           <div
-            className={`fixed top-0 left-0 w-[100vw] h-[100vh] bg-[#000000d6] flex items-center 
+            className={`fixed top-0 left-0 w-full h-screen bg-[#000000d6] flex items-center 
              justify-center flex-col gap-5 z-10 lg:hidden ${showHam ? "translate-x-0 transition duration-700" : "translate-x-[-100%]  transition duration-700"}`}
           >
             <RxCross1
