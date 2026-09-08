@@ -80,3 +80,15 @@ const editCourse = asyncHandler(async (req, res) => {
 
   return res.status(200).json(new ApiResponse(200, courses));
 });
+
+//get courses by id
+const  getCoursesById = asyncHandler(async(req, res) => {
+    const { courseId } = req.params;
+    let course = await Courses.findById(courseId);
+    if(!course){
+        throw new ApiError(401, "course is not  found by id");
+
+    }
+    return res.status(200).json(new ApiResponse(200, course));
+    
+})
