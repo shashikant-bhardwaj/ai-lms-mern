@@ -92,3 +92,36 @@ const  getCoursesById = asyncHandler(async(req, res) => {
     return res.status(200).json(new ApiResponse(200, course));
     
 })
+
+
+//remove course controller
+const removeCourse = asyncHandler(async(req, res) => {
+  const { courseId } = req.params;
+  const course = await Courses.findById({courseId});
+  const deleteCourse = await Courses.findByIdAndDelete(
+    courseId,
+    {
+      new :true
+    }
+  )
+
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(
+      200,
+      {},
+      "Deleted Successfully"
+    )
+  )
+})
+
+
+export {
+  createCourse,
+  getPublishedCourses,
+  createdCourses,
+  editCourse,
+  getCoursesById,
+  removeCourse
+}

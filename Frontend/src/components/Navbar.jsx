@@ -45,6 +45,7 @@ function Navbar() {
           )}
           {authUser?.role === "Educator" && (
             <div
+              onClick={() => navigate("/dashboard")}
               className="px-[20px] py-[10px] border-2 border-white text-white bg-[black] rounded-[10px] text-[18px] font-light
           cursor-pointer"
             >

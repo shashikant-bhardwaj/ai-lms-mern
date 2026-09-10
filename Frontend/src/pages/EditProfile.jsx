@@ -1,125 +1,148 @@
 import React from "react";
-import { SiViaplay } from "react-icons/si";
-import { TbDeviceDesktopAnalytics } from "react-icons/tb";
-import { FaUikit } from "react-icons/fa";
-import { MdAppShortcut } from "react-icons/md";
-import { FaHackerrank } from "react-icons/fa6";
-import { AiFillOpenAI } from "react-icons/ai";
-import { SiGoogledataproc } from "react-icons/si";
-import { BsClipboardDataFill } from "react-icons/bs";
-import { SiGooglegemini } from "react-icons/si";
+import { useState } from "react";
+import { TiArrowLeftThick } from "react-icons/ti";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
+import useEditProfile from "../hooks/useEditProfile";
+function EditProfile() {
+  const navigate = useNavigate();
+  const { authUser } = useSelector((state) => state.user);
+  const { loading, editProfile } = useEditProfile();
+  const [data, setData] = useState({
+    photoUrl: authUser?.photoUrl || "",
+    fullName: authUser?.fullName || "",
+    description: authUser?.description || "",
+  });
 
-function ExploreCourses() {
+  const onChange = (e) => {
+    const { name, value, files } = e.target;
+    setData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    if (data?.photoUrl) {
+      formData.append("avatar", data?.photoUrl);
+    }
+
+    formData.append("fullName", data?.fullName);
+    formData.append("description", data?.description);
+    editProfile(formData);
+  };
+
   return (
     <div
-      className="w-full min-h-[50vh] flex 
-        flex-col lg:flex-row items-center justify-center 
-        gap-8 lg:gap-4 pt-[20px] sm:pt-[30px] lg:pt-[40px] 
-        px-[20px] sm:px-[30px] pb-[40px] lg:pb-0"
+      className="min-h-screen flex items-center justify-center 
+        bg-gray-100 px-4 py-10"
     >
-      {/* {left/top div} */}
       <div
-        className="w-full lg:w-[350px] shrink-0 
-            flex flex-col items-start justify-center gap-1 
-            px-0 sm:px-[20px] md:px-[40px] lg:px-0"
+        className="bg-white rounded-2xl shadow-lg p-8 max-w-xl 
+            w-full relative"
       >
-        <span className="text-[26px] sm:text-[30px] lg:text-[35px] font-semibold">
-          Explore Courses
-        </span>
-        <span className="text-[26px] sm:text-[30px] lg:text-[35px] font-semibold">
-          Our Courses
-        </span>
-        <p className="text-[15px] sm:text-[16px] lg:text-[17px]">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim, cum
-          minus modi, qui omnis a ratione laudantium quis blanditiis esse
-          inventore quisquam asperiores sunt quo assumenda impedit quas
-          temporibus maiores optio repellendus. Harum deserunt maxime neque
-          distinctio aspernatur quam corrupti!
-        </p>
-        <button
-          className="px-[16px] sm:px-[20px] py-[8px] sm:py-[10px] border-2 bg-[black]
-        border-white text-white rounded-[10px] text-[15px] sm:text-[18px]
-        font-light flex items-center gap-2 mt-[24px] sm:mt-[40px] cursor-pointer"
+        <TiArrowLeftThick
+          className="absolute top-[5%] left-[5%] w-[22px] h-[22px] 
+             cursor-pointer"
+          onClick={() => navigate("/profile")}
+        />
+        <h2
+          className="text-2xl font-bold text-center text-gray-800
+             mb-6"
         >
-          Explore Courses{" "}
-          <SiViaplay className="w-[22px] h-[22px] sm:w-[30px] sm:h-[30px] fill-white" />
-        </button>
-      </div>
-
-      {/* {right/bottom div} */}
-      <div
-        className="w-full lg:w-[720px] max-w-full 
-      grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 
-      gap-x-[20px] gap-y-[24px] sm:gap-[30px] lg:gap-[40px] 
-      place-items-center"
-      >
-        <div className="w-[90px] sm:w-[100px] h-auto font-light text-[12px] sm:text-[13px] 
-        flex flex-col gap-2 sm:gap-3 text-center items-center">
-            <div className="w-[90px] h-[80px] sm:w-[100px] sm:h-[90px] bg-[#fbd9fb]
-            rounded-lg flex items-center justify-center">
-             <TbDeviceDesktopAnalytics className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] text-[#6d6c6c]"/>
-            </div>
-            Web Dev
-        </div>
-        <div className="w-[90px] sm:w-[100px] h-auto font-light text-[12px] sm:text-[13px] 
-        flex flex-col gap-2 sm:gap-3 text-center items-center">
-            <div className="w-[90px] h-[80px] sm:w-[100px] sm:h-[90px] bg-[#c2eecc]
-            rounded-lg flex items-center justify-center">
-             <FaUikit className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] text-[#6d6c6c]"/>
-            </div>
-            UI/UX Designing
-        </div>
-        <div className="w-[90px] sm:w-[100px] h-auto font-light text-[12px] sm:text-[13px] 
-        flex flex-col gap-2 sm:gap-3 text-center items-center">
-            <div className="w-[90px] h-[80px] sm:w-[100px] sm:h-[90px] bg-[#fab4c0]
-            rounded-lg flex items-center justify-center">
-             <MdAppShortcut className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] text-[#6d6c6c]"/>
-            </div>
-            App Dev
-        </div>
-        <div className="w-[90px] sm:w-[100px] h-auto font-light text-[12px] sm:text-[13px] 
-        flex flex-col gap-2 sm:gap-3 text-center items-center">
-            <div className="w-[90px] h-[80px] sm:w-[100px] sm:h-[90px] bg-[#c596f8]
-            rounded-lg flex items-center justify-center">
-             <FaHackerrank className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] text-[#6d6c6c]"/>
-            </div>
-            Ethical Hacking
-        </div>
-        <div className="w-[90px] sm:w-[100px] h-auto font-light text-[12px] sm:text-[13px] 
-        flex flex-col gap-2 sm:gap-3 text-center items-center">
-            <div className="w-[90px] h-[80px] sm:w-[100px] sm:h-[90px] bg-[#b2ffbc]
-            rounded-lg flex items-center justify-center">
-             <AiFillOpenAI className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] text-[#6d6c6c]"/>
-            </div>
-            AI/ML
-        </div>
-        <div className="w-[90px] sm:w-[100px] h-auto font-light text-[12px] sm:text-[13px] 
-        flex flex-col gap-2 sm:gap-3 text-center items-center">
-            <div className="w-[90px] h-[80px] sm:w-[100px] sm:h-[90px] bg-[#f79caa]
-            rounded-lg flex items-center justify-center">
-             <SiGoogledataproc className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] text-[#6d6c6c]"/>
-            </div>
-            Data Science
-        </div>
-        <div className="w-[90px] sm:w-[100px] h-auto font-light text-[12px] sm:text-[13px] 
-        flex flex-col gap-2 sm:gap-3 text-center items-center">
-            <div className="w-[90px] h-[80px] sm:w-[100px] sm:h-[90px] bg-[#c596f8]
-            rounded-lg flex items-center justify-center">
-             <BsClipboardDataFill className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] text-[#6d6c6c]"/>
-            </div>
-            Data Analytics
-        </div>
-        <div className="w-[90px] sm:w-[100px] h-auto font-light text-[12px] sm:text-[13px] 
-        flex flex-col gap-2 sm:gap-3 text-center items-center">
-            <div className="w-[90px] h-[80px] sm:w-[100px] sm:h-[90px] bg-[#fbd9fb]
-            rounded-lg flex items-center justify-center">
-             <SiGooglegemini className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] text-[#6d6c6c]"/>
-            </div>
-            AI Tools
-        </div>
+          Edit Profile
+        </h2>
+        <form onSubmit={onSubmitHandler}>
+          <div className="flex flex-col items-center text-center">
+            {authUser?.photoUrl ? (
+              <img
+                src={authUser?.photoUrl}
+                className="w-24 h-24 rounded-full object-cover
+                border-4 border-black"
+                alt=""
+              />
+            ) : (
+              <div
+                className="w-24 h-24 rounded-full text-white flex items-center 
+                 justify-center text-[30px] border-2 bg-black border-white"
+              >
+                {authUser?.fullName?.slice(0, 1).toUpperCase()}
+              </div>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="image"
+              className="text-sm font-medium text-gray-700"
+            >
+              Select Avatar
+            </label>
+            <input
+              id="image"
+              onChange={onChange}
+              type="file"
+              name="photoUrl"
+              placeholder="PhotoUrl"
+              accept="image/*"
+              className="w-full px-4 py-2 border rounded-md text-sm active:bg-[#ebe5e5] cursor-pointer transition"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="username"
+              className="text-sm font-medium text-gray-700"
+            >
+              Username
+            </label>
+            <input
+              id="username"
+              onChange={onChange}
+              type="text"
+              name="fullName"
+              value={data.fullName}
+              placeholder={authUser?.fullName}
+              className="w-full px-4 py-2 border rounded-md text-sm"
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="text"
+              readOnly
+              placeholder={authUser?.email}
+              className="w-full px-4 py-2 border rounded-md text-sm cursor-not-allowed"
+            />
+          </div>
+          <div>
+            <label htmlFor="Bio" className="text-sm font-medium text-gray-700">
+              Bio
+            </label>
+            <textarea
+              id="Bio"
+              onChange={onChange}
+              name="description"
+              value={data.description}
+              placeholder="Write about yourself"
+              rows={3}
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md 
+                    resize-none focus:ring-2 focus:ring-[black]"
+            />
+          </div>
+          <button
+            disabled={loading}
+            className="w-full bg-[black] active:bg-[#454545] 
+                text-white py-2 rounded-md font-medium transition 
+                cursor-pointer"
+          >
+            {loading ? <ClipLoader size={30} color="white" /> : "Save Changes"}
+          </button>
+        </form>
       </div>
     </div>
   );
 }
 
-export default ExploreCourses;
+export default EditProfile;

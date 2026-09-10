@@ -8,7 +8,12 @@ import Profile from "../pages/Profile.jsx";
 import ProtectedRoute from "./protectedRoute/ProtectedRoute.jsx";
 import ForgetPassword from "../pages/ForgetPassword.jsx";
 import PublicRoute from "./publicRoute/PublicRoute.jsx";
-import EditProfile from "../pages/EditProfile.jsx";
+import EducatorRoute from "./protectedRoute/EducatorRoute.jsx";
+import CreateCourse from "../pages/educator/CreateCourse.jsx";
+import Courses from "../pages/educator/Courses.jsx";
+import EditCourse from "../pages/educator/EditCourse.jsx";
+import Dashboard from "../pages/educator/Dashboard.jsx";
+import EditProfile from "../pages/EditProfile.jsx"
 
 const router = createBrowserRouter([
   {
@@ -51,10 +56,34 @@ const router = createBrowserRouter([
           },
           {
             path: "editprofile",
-            element: <EditProfile />,
+            element: <EditProfile/>,
           },
         ],
       },
+
+      //Educator route -> only educator is allowed
+
+      {
+        element: <EducatorRoute/>,
+        children: [
+          {
+            path: "dashboard",
+            element: <Dashboard/>
+          },
+          {
+            path: "createcourse",
+            element: <CreateCourse/>
+          },
+          {
+            path: "courses",
+            element: <Courses/>
+          },
+          {
+            path: "editcourse",
+            element: <EditCourse/>
+          }
+        ]
+      }
     ],
   },
 ]);
