@@ -2,7 +2,7 @@ import api from "../services/api.js";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setAuthUser } from "../redux/features/userSlice";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 import React from 'react'
 import { signInWithPopup } from "firebase/auth";

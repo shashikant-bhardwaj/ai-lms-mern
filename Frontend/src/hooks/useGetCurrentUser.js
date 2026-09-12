@@ -5,7 +5,7 @@ import { setAuthUser } from "../redux/features/userSlice.js";
 
 function useGetCurrentUser() {
      const dispatch = useDispatch();
-     dispatch(setAuthUser(null))
+   
 
      useEffect( () => {
         const currentUser = async() => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
+import { toast } from 'sonner'
 import { setAuthUser } from '../redux/features/userSlice'
 import { useNavigate } from 'react-router-dom'
 import api from '../services/api'

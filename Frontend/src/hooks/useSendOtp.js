@@ -1,6 +1,6 @@
 import { useState } from "react"
 import api from "../services/api.js"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 
 import React from 'react'
 

@@ -33,8 +33,8 @@ function Navbar() {
               className="w-[50px] h-[50px] fill-black cursor-pointer"
             />
           )}
-          {authUser ? <img src={authUser?.photoUrl}  onClick={() => setShow((prev) => !prev)} className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black border-white
-           cursor-pointer"/> : (
+          {authUser && (authUser ? (<img src={authUser?.photoUrl}  onClick={() => setShow((prev) => !prev)} className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black border-white
+           cursor-pointer"/>) : (
             <div
               onClick={() => setShow((prev) => !prev)}
               className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black border-white
@@ -42,7 +42,8 @@ function Navbar() {
             >
               {authUser?.fullName?.slice(0, 1).toUpperCase()}
             </div>
-          )}
+          ))}
+         
           {authUser?.role === "Educator" && (
             <div
               onClick={() => navigate("/dashboard")}
@@ -101,7 +102,7 @@ function Navbar() {
               className="w-[50px] h-[50px] fill-black cursor-pointer"
             />
           )}
-          {authUser ? <img src={authUser?.photoUrl} className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black border-white
+          {authUser?.photoUrl ? <img src={authUser?.photoUrl} className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black border-white
            cursor-pointer"/> : (
             <div
               className="w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-2 bg-black border-white

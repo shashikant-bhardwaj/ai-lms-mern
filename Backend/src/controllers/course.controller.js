@@ -13,7 +13,7 @@ const createCourse = asyncHandler(async (req, res) => {
 
   const course = await Courses.create({
     title,
-    description,
+    category,
     creator: req.user?._id,
   });
 

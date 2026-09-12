@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import api from "../services/api.js"
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';

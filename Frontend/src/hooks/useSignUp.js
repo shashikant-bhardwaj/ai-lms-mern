@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import api from "../services/api.js";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/features/userSlice.js";
