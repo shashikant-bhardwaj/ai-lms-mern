@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 import img from "../../assets/empty.jpg"
+import { FaEdit } from "react-icons/fa";
 
 function EditCourse() {
     const navigate = useNavigate();
@@ -161,12 +162,25 @@ function EditCourse() {
                             accept='image/*' />
                         </div>
                         <div className='relative w-[300px] h-[170px]'>
+                            <FaEdit 
+                            onClick={() => thumb.current?.click()}
+                            className=' absolute top-2 left-[90%] size-5 hover:text-blue-600'/>
                             <img
-                            src={img} 
+                            src={img}
                             alt="" 
                             onClick={() => thumb.current?.click()}
                             className='w-[100%] border border-black 
                             rounded-[5px] w-full h-full'/>
+                        </div>
+
+                        <div className='flex items-center justify-start gap-[15px]'>
+                            <button
+                            onClick={() => navigate("/courses")}
+                            className='bg-[#e9e8e8] hover:bg-red-200 
+                            text-black border border-black cursor-pointer
+                            py-2 px-4 rounded-md'>Cancel</button>
+                            <button className='bg-black text-white px-7
+                            py-2 rounded-md hover:bg-gray-500 cursor-pointer'>Save</button>
                         </div>
                   
 
