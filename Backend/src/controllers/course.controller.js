@@ -14,6 +14,8 @@ const createCourse = asyncHandler(async (req, res) => {
   const course = await Courses.create({
     title,
     category,
+   
+
     creator: req.user?._id,
   });
 
@@ -62,6 +64,10 @@ const editCourse = asyncHandler(async (req, res) => {
     const thumbnailPath = req.file?.path;
     //upload on cloudinary
     thumbnail = await uploadOnCloudinary(thumbnailPath);
+    if(!thumbnail){
+      throw new ApiError(400, "Error while uploading thumbnail")
+    }
+    updatedData.thumbnail = thumbnail?.url
   }
 
   // update
@@ -82,7 +88,7 @@ const editCourse = asyncHandler(async (req, res) => {
 });
 
 //get courses by id
-const  getCoursesById = asyncHandler(async(req, res) => {
+const  getCourseById = asyncHandler(async(req, res) => {
     const { courseId } = req.params;
     let course = await Courses.findById(courseId);
     if(!course){
@@ -122,6 +128,6 @@ export {
   getPublishedCourses,
   createdCourses,
   editCourse,
-  getCoursesById,
+  getCourseById,
   removeCourse
 }

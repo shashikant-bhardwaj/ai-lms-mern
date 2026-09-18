@@ -13,10 +13,21 @@ const courseSlice = createSlice({
         },
         setAddCourse: (state, action) => {
             state.createdCourses.push(action.payload)
-        }    
+        }    ,
+        setUpdatedCourses: (state, action) => {
+            const updatedCourse = action.payload;
+
+            const index = state.createdCourses.findIndex(
+                (course) => course?._id === updatedCourse?._id
+            )
+
+            if(index != -1){
+                state.createdCourses[index] = updatedCourse;
+            }
+        }
         
     }
 })
 
-export const { setCreatedCourses, setAddCourse } = courseSlice.actions;
+export const { setCreatedCourses, setAddCourse, setUpdatedCourses } = courseSlice.actions;
 export default courseSlice.reducer;

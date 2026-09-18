@@ -1,13 +1,103 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { SkeletionLoading } from '../../components/SkeletionLoading.jsx';
+import { useNavigate, useParams } from 'react-router-dom';
 import img from "../../assets/empty.jpg"
 import { FaEdit } from "react-icons/fa";
+import useGetCourseById from '../../hooks/useGetCourseById.js';
+import useEditCourse from '../../hooks/useEditCourse.js';
+import { ClipLoader } from "react-spinners";
+
 
 function EditCourse() {
     const navigate = useNavigate();
-    const [isPublished, setIsPublished] = useState(false);
     const thumb = useRef(null);
+    const { courseId } = useParams();
+    const { getCourseById, loading} = useGetCourseById();
+    const { editCourse, loading2 } = useEditCourse();
+    const [selectedCourse, setSelectedCourse] = useState({
+        title: "",
+        category: "",
+        subTitle: "",
+        description: "",
+        level: "",
+        price: 0,
+        thumbnail: "",
+        previewURL: "",
+        isPublished: false,
+
+    })
+    useEffect(() => {
+        if(courseId){
+         getCourseById(courseId, setSelectedCourse);
+        }
+    },[courseId]);
+    // useEffect(() => {
+    //     if(selectedCourse){
+    //         setData({
+    //               title: selectedCourse?.title || "",
+    //               category: selectedCourse?.category ||  "",
+    //               subtitle: "",
+    //               discription: "",
+    //               level: "",
+    //               price: 0,
+    //               thumbnail: ""
+    //         })
+    //     }
+    // },[selectedCourse])
+    const onChange = (e) => {
+        const { name , value, files, type } = e.target;
+
+        if(type === "file"){
+            const file = files?.[0]
+
+            if(file){
+                const previewURL = URL.createObjectURL(file);
+
+                 setSelectedCourse((prev) => ({
+                ...prev,
+                thumbnail: file,
+                previewURL: previewURL
+            }))
+            }
+
+            return
+        }
+        setSelectedCourse((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+        
+    }
+    const onSubmitHandler = (e) => {
+        e.preventDefault()
+
+        const formData = new FormData();
+        if(selectedCourse?.thumbnail){
+            formData.append("thumbnail", selectedCourse?.thumbnail)
+        }
+        formData.append("title", selectedCourse?.title)
+        formData.append("subTitle", selectedCourse?.subTitle)
+        formData.append("category", selectedCourse?.category)
+        formData.append("level", selectedCourse?.level)
+        formData.append("price", selectedCourse?.price)
+        formData.append("description", selectedCourse?.description)
+        formData.append("isPublished", selectedCourse?.isPublished)
+
+        if(courseId){
+            editCourse(courseId, formData);
+        }
+
+
+    }
+
+    if(loading){
+        return(
+            <SkeletionLoading/>
+        )
+    }
+
+    
     return (
         <div className=' max-w-5xl mx-auto p-6 mt-10
         bg-white rounded-lg shadow-md'>
@@ -38,13 +128,19 @@ function EditCourse() {
                     Basic Course Information
                     </h2>
                 <div className='space-x-2 space-y-2'>
-                   {!isPublished ?  <button 
-                   onClick={() => setIsPublished((prev) => !prev)}
+                   {!selectedCourse.isPublished ?  <button 
+                   onClick={() => setSelectedCourse((prev) => ({
+                            ...prev,
+                            isPublished: !prev.isPublished
+                         }))}
                    className='bg-green-100 text-green-600
                     px-4 py-2 rounded-md border-1 '>
                         Click to Publish</button> : 
                          <button
-                         onClick={() => setIsPublished((prev) => !prev)} 
+                         onClick={() => setSelectedCourse((prev) => ({
+                            ...prev,
+                            isPublished: !prev.isPublished
+                         }))} 
                          className='bg-red-100 text-red-600
                     px-4 py-2 rounded-md border-1 '>
                         Click to UnPublish</button>}
@@ -53,7 +149,7 @@ function EditCourse() {
                         Remove Course</button>
                 </div>
 
-                <form className='space-y-6' >
+                <form onSubmit={onSubmitHandler} className='space-y-6' >
 
                     <div>
                         <label 
@@ -61,6 +157,9 @@ function EditCourse() {
                         className='block text-sm font font-medium text-gray-700
                         mb-1'>Title</label>
                         <input
+                        name='title'
+                        value={selectedCourse?.title}
+                        onChange={onChange}
                         id='title'
                         type="text"
                         className='w-full px-4 py-2 rounded-md border border-gray-600'
@@ -72,6 +171,9 @@ function EditCourse() {
                         className='block text-sm font font-medium text-gray-700
                         mb-1'>Subtitle</label>
                         <input
+                        name='subTitle'
+                        value={selectedCourse?.subTitle || ""}
+                        onChange={onChange}
                         id='subtitle'
                         type="text"
                         className='w-full px-4 py-2 rounded-md border border-gray-600'
@@ -81,8 +183,11 @@ function EditCourse() {
                         <label 
                         htmlFor="discription" 
                         className='block text-sm font font-medium text-gray-700
-                        mb-1'>Discription</label>
+                        mb-1'>Description</label>
                         <textarea
+                        name='description'
+                        value={selectedCourse?.description || ""}
+                        onChange={onChange}
                         rows={3}
                         id='discription'
                         className='w-full px-4 py-2 rounded-md border border-gray-600
@@ -100,7 +205,9 @@ function EditCourse() {
                         text-gray-700 mb-1'
                         htmlFor="category">Course Category</label>
                         <select
-                        name="" 
+                        name="category"                   
+                        value={selectedCourse?.category}
+                        onChange={onChange}
                         id="category"
                         className='w-full border px-4 py-2 rounded-md bg-white'>
                         <option value="">Select Category</option>
@@ -123,7 +230,9 @@ function EditCourse() {
                         text-gray-700 mb-1'
                         htmlFor="category">Course Level</label>
                         <select
-                        name="" 
+                        name="level"
+                        value={selectedCourse?.level}
+                        onChange={onChange}
                         id="category"
                         className='w-full border px-4 py-2 rounded-md bg-white'>
                         <option value="">Select Course Level</option>
@@ -134,12 +243,15 @@ function EditCourse() {
                         </div>
 
                         {/* for  price */}
-                         <div className='flex-1 '>
+                        <div className='flex-1 '>
                         <label
                         className='block text-sm font-medium
                         text-gray-700 mb-1'
                         htmlFor="price">Price (INR)</label>
                         <input
+                        name='price'
+                        value={selectedCourse?.price}
+                        onChange={onChange}
                         id='price'
                         type="number"
                         min={0}
@@ -155,6 +267,8 @@ function EditCourse() {
                             className='block text-sm font-medium
                             text-gray-700 mb-1'>Course Thumbnail</label>
                             <input 
+                            name='thumbnail'
+                            onChange={onChange}
                             id='thumbnail'
                             type="file"
                             hidden
@@ -166,7 +280,7 @@ function EditCourse() {
                             onClick={() => thumb.current?.click()}
                             className=' absolute top-2 left-[90%] size-5 hover:text-blue-600'/>
                             <img
-                            src={img}
+                            src={selectedCourse?.previewURL || selectedCourse?.thumbnail || img}
                             alt="" 
                             onClick={() => thumb.current?.click()}
                             className='w-[100%] border border-black 
@@ -180,7 +294,8 @@ function EditCourse() {
                             text-black border border-black cursor-pointer
                             py-2 px-4 rounded-md'>Cancel</button>
                             <button className='bg-black text-white px-7
-                            py-2 rounded-md hover:bg-gray-500 cursor-pointer'>Save</button>
+                            py-2 rounded-md hover:bg-gray-500 cursor-pointer'>
+                                {loading2 ? <ClipLoader size={30} color='white'/> : "Save"}</button>
                         </div>
                   
 

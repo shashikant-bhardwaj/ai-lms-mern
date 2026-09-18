@@ -7,10 +7,12 @@ const coursesSchema = new Schema(
             required: true
         },
         subTitle: {
-            type: String
+            type: String,
+            default: ""
         },
         description: {
-            type: String
+            type: String,
+            default: ""
         },
         category: {
             type: String,
@@ -21,7 +23,8 @@ const coursesSchema = new Schema(
             enum: ["Beginner", "Intermediate", "Advanced"]
         },
         price: {
-            type: Number
+            type: Number,
+            default: ""
         },
         thumbnail: {
             type: String
