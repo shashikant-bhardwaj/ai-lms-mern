@@ -7,7 +7,15 @@ import ai from "../assets/ai.png"
 import ai1 from "../assets/SearchAi.png"
 import Logos from '../components/Logos.jsx';
 import ExploreCourses from '../components/ExploreCourses.jsx';
+import useGetCurrentUser from '../hooks/useGetCurrentUser.js';
+import { SkeletionLoading } from '../components/SkeletionLoading.jsx';
 function Home() {
+  const { currentUserLoading } = useGetCurrentUser();
+  if(currentUserLoading){
+    return(
+      <SkeletionLoading/>
+    )
+  }
   return (
     <>
       <div className="relative lg:h-screen text-2xl">
