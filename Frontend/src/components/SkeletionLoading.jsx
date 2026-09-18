@@ -7,7 +7,7 @@ function SkeletionLoading() {
         mt-6 sm:mt-10
         p-4 sm:p-6
         bg-white rounded-lg shadow-md
-        animate-pulse
+        animate-pulse 
       "
     >
       {/* Heading Skeleton */}

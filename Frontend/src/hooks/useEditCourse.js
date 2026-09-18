@@ -14,14 +14,15 @@ function useEditCourse() {
             const res = await api.post(`/courses/editcourse/${courseId}`, formData)
             dispatch(setUpdatedCourses(res?.data?.data));
             navigate("/courses");
-            toast.success("Updated")
+            toast.success(res?.data?.message)
 
         } catch (error) {
             setLoading2(false);
-            toast.error(error?.response?.data)
+            toast.error(error?.response?.data?.message)
             
         }finally{
             setLoading2(false);
+            
         }
     }
     return { editCourse, loading2 }

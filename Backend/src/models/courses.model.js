@@ -27,7 +27,8 @@ const coursesSchema = new Schema(
             default: ""
         },
         thumbnail: {
-            type: String
+            type: String,
+            
         },
         enrollStudents: {
             type: Schema.Types.ObjectId,
