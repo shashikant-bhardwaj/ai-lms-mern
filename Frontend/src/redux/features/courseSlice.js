@@ -24,10 +24,14 @@ const courseSlice = createSlice({
             if(index != -1){
                 state.createdCourses[index] = updatedCourse;
             }
+        },
+        setRemovedCourse:(state, action) => {
+            const removedCourse = action.payload;
+            state.createdCourses = state.createdCourses.filter((courses) => courses?._id != removedCourse);
         }
         
     }
 })
 
-export const { setCreatedCourses, setAddCourse, setUpdatedCourses } = courseSlice.actions;
+export const { setCreatedCourses, setAddCourse, setUpdatedCourses, setRemovedCourse } = courseSlice.actions;
 export default courseSlice.reducer;

@@ -103,8 +103,8 @@ const  getCourseById = asyncHandler(async(req, res) => {
 //remove course controller
 const removeCourse = asyncHandler(async(req, res) => {
   const { courseId } = req.params;
-  const course = await Courses.findById({courseId});
-  const deleteCourse = await Courses.findByIdAndDelete(
+  await Courses.findById(courseId);
+  await Courses.findByIdAndDelete(
     courseId,
     {
       new :true

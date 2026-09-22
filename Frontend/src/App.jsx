@@ -10,7 +10,7 @@ import { setCreatedCourses } from './redux/features/courseSlice.js';
 
 function App() {
  useGetCurrentUser();
- useGetCreatedCourses()
+ useGetCreatedCourses();
   
   
 

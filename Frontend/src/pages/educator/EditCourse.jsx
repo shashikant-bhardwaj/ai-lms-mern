@@ -7,6 +7,8 @@ import { FaEdit } from "react-icons/fa";
 import useGetCourseById from "../../hooks/useGetCourseById.js";
 import useEditCourse from "../../hooks/useEditCourse.js";
 import { ClipLoader } from "react-spinners";
+import useRemoveCourse from "../../hooks/useRemoveCourse.js";
+ 
 
 
 
@@ -16,6 +18,7 @@ function EditCourse() {
   const { courseId } = useParams();
   const { getCourseById, loading } = useGetCourseById();
   const { editCourse, loading2 } = useEditCourse();
+  const { removeLoading, removeCourse } = useRemoveCourse();
   const [selectedCourse, setSelectedCourse] = useState({
     title: "",
     category: "",
@@ -68,6 +71,10 @@ function EditCourse() {
       [name]: value,
     }));
   };
+ 
+  const onRemoveCourse = () => {
+    removeCourse(courseId);
+  }
 
   
   const onSubmitHandler = (e) => {
@@ -160,10 +167,11 @@ function EditCourse() {
             </button>
           )}
           <button
+          onClick={onRemoveCourse}
             className="bg-red-600 text-white
                     px-4 py-2 rounded-md"
           >
-            Remove Course
+            {removeLoading ? <ClipLoader size={30} color="white"/> : "Remove Course"}
           </button>
         </div>
 

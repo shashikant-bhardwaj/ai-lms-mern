@@ -12,7 +12,7 @@ function useEditCourse() {
         setLoading2(true);
         try {
             const res = await api.post(`/courses/editcourse/${courseId}`, formData)
-            dispatch(setUpdatedCourses(res?.data?.data));
+            dispatch(setUpdatedCourses(res?.data?.data?._id));
             navigate("/courses");
             toast.success(res?.data?.message)
 
