@@ -24,7 +24,7 @@ const coursesSchema = new Schema(
         },
         price: {
             type: Number,
-            default: ""
+            default: 0
         },
         thumbnail: {
             type: String,

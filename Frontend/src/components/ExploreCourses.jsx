@@ -8,8 +8,10 @@ import { AiFillOpenAI } from "react-icons/ai";
 import { SiGoogledataproc } from "react-icons/si";
 import { BsClipboardDataFill } from "react-icons/bs";
 import { SiGooglegemini } from "react-icons/si";
+import { useNavigate } from "react-router-dom";
 
 function ExploreCourses() {
+  const navigate = useNavigate();
   return (
     <div
       className="w-full min-h-[50vh] lg:h-[50vh] flex 
@@ -21,7 +23,12 @@ function ExploreCourses() {
             flex flex-col items-start  justify-center gap-1 md:px-[40px]
              px-[20px]"
       >
-        <span className="text-[35px] font-semibold ">Explore Courses</span>
+        <span
+          className="text-[35px] font-semibold "
+         
+        >
+          Explore Courses
+        </span>
         <span className="text-[35px] font-semibold">Our Courses</span>
         <p className="text-[17px] ">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim, cum
@@ -30,13 +37,25 @@ function ExploreCourses() {
           temporibus maiores optio repellendus. Harum deserunt maxime neque
           distinctio aspernatur quam corrupti!
         </p>
-        <button className="px-[20px] py-[10px] border-2 bg-[black]
+        <button
+          onClick={() => {
+            console.log("clicked")
+            navigate("/allcourses")}}
+          className="px-[20px] py-[10px] border-2 bg-[black]
         border-white text-white rounded-[10px] text-[18px]
-        font-light flex gap-2 mt-[40px] cursor-pointer">Explore Courses <SiViaplay className='w-[30px] h-[30px]
-        fill-white'/></button>
+        font-light flex gap-2 mt-[40px] relative z-50  cursor-pointer
+         hover:border-blue-200 hover:shadow-xl hover:shadow-blue-400"
+        
+        >
+          Explore Courses{" "}
+          <SiViaplay
+            className="w-[30px] h-[30px] fill-white"
+          />
+        </button>
       </div>
       {/* {right/bottom div} */}
-     <div className="
+      <div
+        className="
     mt-[30px]
     w-full
     max-w-[720px]
@@ -50,70 +69,103 @@ function ExploreCourses() {
     flex-wrap
     mb-[50px]
     lg:mb-0
-">
-        <div className="w-[100px] h-[130px] font-light text-[13px] 
-        flex flex-col gap-3 text-center">
-            <div className="w-[100px] h-[90px] bg-[#fbd9fb]
-            rounded-lg flex items-center justify-center">
-             <TbDeviceDesktopAnalytics className="w-[60px] h-[60px] text-[#6d6c6c]"/>
-            </div>
-            Web Dev
+"
+      >
+        <div
+          className="w-[100px] h-[130px] font-light text-[13px] 
+        flex flex-col gap-3 text-center"
+        >
+          <div
+            className="w-[100px] h-[90px] bg-[#fbd9fb]
+            rounded-lg flex items-center justify-center"
+          >
+            <TbDeviceDesktopAnalytics className="w-[60px] h-[60px] text-[#6d6c6c]" />
+          </div>
+          Web Dev
         </div>
-        <div className="w-[100px] h-[130px] font-light text-[13px] 
-        flex flex-col gap-3 text-center">
-            <div className="w-[100px] h-[90px] bg-[#c2eecc]
-            rounded-lg flex items-center justify-center">
-             <FaUikit className="w-[60px] h-[60px] text-[#6d6c6c]"/>
-            </div>
-            UI/UX Designing
+        <div
+          className="w-[100px] h-[130px] font-light text-[13px] 
+        flex flex-col gap-3 text-center"
+        >
+          <div
+            className="w-[100px] h-[90px] bg-[#c2eecc]
+            rounded-lg flex items-center justify-center"
+          >
+            <FaUikit className="w-[60px] h-[60px] text-[#6d6c6c]" />
+          </div>
+          UI/UX Designing
         </div>
-        <div className="w-[100px] h-[130px] font-light text-[13px] 
-        flex flex-col gap-3 text-center">
-            <div className="w-[100px] h-[90px] bg-[#fab4c0]
-            rounded-lg flex items-center justify-center">
-             <MdAppShortcut className="w-[50px] h-[50px] text-[#6d6c6c]"/>
-            </div>
-            App Dev
+        <div
+          className="w-[100px] h-[130px] font-light text-[13px] 
+        flex flex-col gap-3 text-center"
+        >
+          <div
+            className="w-[100px] h-[90px] bg-[#fab4c0]
+            rounded-lg flex items-center justify-center"
+          >
+            <MdAppShortcut className="w-[50px] h-[50px] text-[#6d6c6c]" />
+          </div>
+          App Dev
         </div>
-        <div className="w-[100px] h-[130px] font-light text-[13px] 
-        flex flex-col gap-3 text-center">
-            <div className="w-[100px] h-[90px] bg-[#c596f8]
-            rounded-lg flex items-center justify-center">
-             <FaHackerrank className="w-[55px] h-[55px] text-[#6d6c6c]"/>
-            </div>
-            Ethical Hacking
+        <div
+          className="w-[100px] h-[130px] font-light text-[13px] 
+        flex flex-col gap-3 text-center"
+        >
+          <div
+            className="w-[100px] h-[90px] bg-[#c596f8]
+            rounded-lg flex items-center justify-center"
+          >
+            <FaHackerrank className="w-[55px] h-[55px] text-[#6d6c6c]" />
+          </div>
+          Ethical Hacking
         </div>
-        <div className="w-[100px] h-[130px] font-light text-[13px] 
-        flex flex-col gap-3 text-center">
-            <div className="w-[100px] h-[90px] bg-[#b2ffbc]
-            rounded-lg flex items-center justify-center">
-             <AiFillOpenAI className="w-[60px] h-[60px] text-[#6d6c6c]"/>
-            </div>
-            AI/ML
+        <div
+          className="w-[100px] h-[130px] font-light text-[13px] 
+        flex flex-col gap-3 text-center"
+        >
+          <div
+            className="w-[100px] h-[90px] bg-[#b2ffbc]
+            rounded-lg flex items-center justify-center"
+          >
+            <AiFillOpenAI className="w-[60px] h-[60px] text-[#6d6c6c]" />
+          </div>
+          AI/ML
         </div>
-        <div className="w-[100px] h-[130px] font-light text-[13px] 
-        flex flex-col gap-3 text-center">
-            <div className="w-[100px] h-[90px] bg-[#f79caa]
-            rounded-lg flex items-center justify-center">
-             <SiGoogledataproc className="w-[50px] h-[50px] text-[#6d6c6c]"/>
-            </div>
-            Data Science
+        <div
+          className="w-[100px] h-[130px] font-light text-[13px] 
+        flex flex-col gap-3 text-center"
+        >
+          <div
+            className="w-[100px] h-[90px] bg-[#f79caa]
+            rounded-lg flex items-center justify-center"
+          >
+            <SiGoogledataproc className="w-[50px] h-[50px] text-[#6d6c6c]" />
+          </div>
+          Data Science
         </div>
-        <div className="w-[100px] h-[130px] font-light text-[13px] 
-        flex flex-col gap-3 text-center">
-            <div className="w-[100px] h-[90px] bg-[#c596f8]
-            rounded-lg flex items-center justify-center">
-             <BsClipboardDataFill className="w-[50px] h-[50px] text-[#6d6c6c]"/>
-            </div>
-            Data Analytics
+        <div
+          className="w-[100px] h-[130px] font-light text-[13px] 
+        flex flex-col gap-3 text-center"
+        >
+          <div
+            className="w-[100px] h-[90px] bg-[#c596f8]
+            rounded-lg flex items-center justify-center"
+          >
+            <BsClipboardDataFill className="w-[50px] h-[50px] text-[#6d6c6c]" />
+          </div>
+          Data Analytics
         </div>
-        <div className="w-[100px] h-[130px] font-light text-[13px] 
-        flex flex-col gap-3 text-center">
-            <div className="w-[100px] h-[90px] bg-[#fbd9fb]
-            rounded-lg flex items-center justify-center">
-             <SiGooglegemini className="w-[50px] h-[50px] text-[#6d6c6c]"/>
-            </div>
-            AI Tools
+        <div
+          className="w-[100px] h-[130px] font-light text-[13px] 
+        flex flex-col gap-3 text-center"
+        >
+          <div
+            className="w-[100px] h-[90px] bg-[#fbd9fb]
+            rounded-lg flex items-center justify-center"
+          >
+            <SiGooglegemini className="w-[50px] h-[50px] text-[#6d6c6c]" />
+          </div>
+          AI Tools
         </div>
       </div>
     </div>

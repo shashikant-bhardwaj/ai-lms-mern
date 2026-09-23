@@ -9,8 +9,12 @@ import Logos from '../components/Logos.jsx';
 import ExploreCourses from '../components/ExploreCourses.jsx';
 import useGetCurrentUser from '../hooks/useGetCurrentUser.js';
 import { SkeletionLoading } from '../components/SkeletionLoading.jsx';
+import CardPage from '../components/CardPage.jsx';
+import { useNavigate } from 'react-router-dom';
+
 function Home() {
   const { currentUserLoading } = useGetCurrentUser();
+  const navigate = useNavigate();
   if(currentUserLoading){
     return(
       <SkeletionLoading/>
@@ -75,6 +79,7 @@ function Home() {
 flex items-center justify-center gap-3 flex-wrap py-[20px] lg:py-0'>
 
           <button
+            onClick={() => navigate("/allcourses")}
             className="
               px-[20px]
               py-[10px]
@@ -90,6 +95,13 @@ flex items-center justify-center gap-3 flex-wrap py-[20px] lg:py-0'>
               items-center
               gap-2
               cursor-pointer
+              hover:border-blue-300
+              hover:lg:text-blue-300
+              hover:shadow-xl
+              hover:shadow-blue-50
+              
+              
+              
             "
           >
             View All Courses
@@ -144,6 +156,7 @@ flex items-center justify-center gap-3 flex-wrap py-[20px] lg:py-0'>
       <Logos />
 
       <ExploreCourses />
+      <CardPage/>
     </>
   );
 }
