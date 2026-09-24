@@ -99,6 +99,9 @@ flex items-center justify-center gap-3 flex-wrap py-[20px] lg:py-0'>
               hover:lg:text-blue-300
               hover:shadow-xl
               hover:shadow-blue-50
+              hover:scale-105
+              transition-all
+              
               
               
               

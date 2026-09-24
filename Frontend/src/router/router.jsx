@@ -26,10 +26,7 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-      {
-        path: "allcourses",
-        element: <AllCourses />,
-      },
+     
 
       //Public route -> for logged out user
       {
@@ -47,6 +44,7 @@ const router = createBrowserRouter([
             path: "forget",
             element: <ForgetPassword />,
           },
+        
         ],
       },
 
@@ -62,6 +60,10 @@ const router = createBrowserRouter([
           {
             path: "editprofile",
             element: <EditProfile />,
+          },
+          {
+        path: "allcourses",
+        element: <AllCourses />,
           },
         ],
       },

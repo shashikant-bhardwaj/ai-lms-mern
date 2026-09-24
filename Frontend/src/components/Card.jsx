@@ -4,7 +4,8 @@ import { FaStar } from "react-icons/fa6";
 function Card({thumbnail, title, category, price, id}) {
     return (
         <div className='max-w-sm w-full bg-white rounded-2xl overflow-hidden
-        shadow-md hover:shadow-lg transition-all duration-300 border border-gray-300'>
+        shadow-md  transition-all duration-300 border border-gray-300
+        transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-black'>
             <img src={thumbnail} alt=""  className='w-full h-48 object-cover'/>
             
             <div className='p-5 space-y-2'>

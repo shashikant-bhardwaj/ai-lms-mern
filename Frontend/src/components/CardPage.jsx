@@ -7,7 +7,7 @@ function CardPage() {
     const [popularCourses, setPopularCourses] = useState([]);
 
     useEffect(() => {
-        setPopularCourses(createdCourses.slice(0,7));
+        setPopularCourses(createdCourses?.slice(0,7));
     },[createdCourses])
     return (
         

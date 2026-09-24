@@ -44,7 +44,7 @@ function ExploreCourses() {
           className="px-[20px] py-[10px] border-2 bg-[black]
         border-white text-white rounded-[10px] text-[18px]
         font-light flex gap-2 mt-[40px] relative z-50  cursor-pointer
-         hover:border-blue-200 hover:shadow-xl hover:shadow-blue-400"
+         hover:border-blue-200 hover:shadow-xl transition-all hover:scale-105 hover:border-white hover:shadow-blue-400"
         
         >
           Explore Courses{" "}
