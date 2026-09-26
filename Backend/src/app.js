@@ -25,10 +25,10 @@ import courseRouter from "./routes/course.route.js"
 app.use("/api/v1/auth", authRouter);
 
 //user route
-app.use("/api/v1/users", userRouter )
+app.use("/api/v1/users", userRouter );
 
 //course  route
-app.use("/api/v1/Courses", courseRouter)
+app.use("/api/v1/Courses", courseRouter);
 
 
 
