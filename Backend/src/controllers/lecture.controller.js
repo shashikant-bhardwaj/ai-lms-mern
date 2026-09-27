@@ -3,6 +3,7 @@ import { Courses } from "../models/courses.model.js";
 import { Lecture } from "../models/lecture.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
 
@@ -35,16 +36,90 @@ const createLecture = asyncHandler(async() => {
     .json(
         new ApiResponse(
             200,
-            course,
+            {lecture,course},
             "Lectures Created"
         )
     )
 })
 
 
+//getting course lecture
+
+const getCourseLecture = asyncHandler(async(req, res) => {
+    const { courseId } = req.params;
+    const course = await Courses.findById(courseId).populate("lectures");
+    if(!course){
+        throw new ApiError(404, "course is not found !");
+    }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(
+            200,
+            course.lectures,
+            "lecture fetched Successfully"
+        )
+    )
+
+
+})
+
+
+//Edit lecture 
+
+const editLecture = asyncHandler(async(req, res) => {
+    const { lectureId } = req.params;
+    const { isPreviewFree, lectureTitle } = req.body;
+
+    const lecture = await Lecture.findById(lectureId);
+    if(!lecture){
+        throw new ApiError(404, "lecture is not found");
+    }
+
+    let videoUrl;
+    if(req.file){
+        const videoLocalPath = req.file?.path;
+        const  upload = await uploadOnCloudinary(videoLocalPath);
+        const videoUrl = upload?.url;   
+    }
+    if(lectureTitle){
+        lecture.lectureTitle = lectureTitle;
+    }
+
+    lecture.isPreviewFree = isPreviewFree;
+
+    await lecture.save();
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(
+            200,
+            lecture,
+            "Edited"
+        )
+    )
+})
+
+
+//remove lecture controller
+
+const removeLecture = asyncHandler(async(req, res) => {
+    const {lectureId} = req.params;
+
+    const lecture = await Lecture.findById(lectureId);
+    if(!lecture){
+        throw new ApiError(400, "Lecture is not found")
+    }
+})
+
+
 
 
 export  {
-    createLecture
+    createLecture,
+    getCourseLecture,
+    editLecture
 }
 
