@@ -110,7 +110,7 @@ const removeLecture = asyncHandler(async(req, res) => {
 
     const lecture = await Lecture.findById(lectureId);
     if(!lecture){
-        throw new ApiError(400, "Lecture is not found")
+        throw new ApiError(400, "Lecture is not found");
     }
 })
 
