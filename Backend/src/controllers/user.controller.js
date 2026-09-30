@@ -41,7 +41,7 @@ const updateProfile = asyncHandler(async(req, res) => {
         //upload photo on cloudinary
         const photoUrl = await uploadOnCloudinary(profileLocalPath);
         if(!photoUrl?.url){
-            throw new ApiError(400, "something went wrong while uploading profile photo")
+            throw new ApiError(400, "something went wrong while uploading profile photo");
         }
         updateData.photoUrl = photoUrl.url;
     }
