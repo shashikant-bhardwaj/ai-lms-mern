@@ -16,4 +16,4 @@ const lectureSchema = new Schema(
     }, 
     {timestamps: true});
 
-    export const Lecture = model("Lecture", lectureSchema)
+    export const Lecture = model("Lecture", lectureSchema);
