@@ -8,7 +8,7 @@ function CardPage() {
 
     useEffect(() => {
         setPopularCourses(createdCourses?.slice(0,7));
-    },[createdCourses])
+    },[createdCourses]);
     return (
         
         <div className='relative flex items-center justify-center flex-col'>
