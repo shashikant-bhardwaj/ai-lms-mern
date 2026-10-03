@@ -15,6 +15,7 @@ import EditCourse from "../pages/educator/EditCourse.jsx";
 import Dashboard from "../pages/educator/Dashboard.jsx";
 import EditProfile from "../pages/EditProfile.jsx";
 import AllCourses from "../pages/AllCourses.jsx";
+import CreateLecture from "../pages/educator/CreateLecture.jsx";
 
 const router = createBrowserRouter([
   {
@@ -62,9 +63,10 @@ const router = createBrowserRouter([
             element: <EditProfile />,
           },
           {
-        path: "allcourses",
-        element: <AllCourses />,
+            path: "allcourses",
+            element: <AllCourses />,
           },
+         
         ],
       },
 
@@ -88,6 +90,10 @@ const router = createBrowserRouter([
           {
             path: "editcourse/:courseId",
             element: <EditCourse />,
+          },
+          {
+            path: "createlecture/:courseId",
+            element: <CreateLecture />,
           },
         ],
       },

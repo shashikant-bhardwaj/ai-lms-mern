@@ -13,7 +13,7 @@ const lectureSchema = new Schema(
             type: Boolean
         }
 
-    }, 
+    },
     {timestamps: true});
 
     export const Lecture = model("Lecture", lectureSchema);

@@ -20,6 +20,7 @@ app.use(cookieParser());
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import courseRouter from "./routes/course.route.js"
+import lectureRouter from "./routes/lecture.route.js"
 
 //auth route
 app.use("/api/v1/auth", authRouter);
@@ -29,6 +30,9 @@ app.use("/api/v1/users", userRouter );
 
 //course  route
 app.use("/api/v1/Courses", courseRouter);
+
+//lecture route
+app.use("/api/v1/lectures", lectureRouter);
 
 
 

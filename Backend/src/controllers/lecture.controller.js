@@ -108,10 +108,24 @@ const editLecture = asyncHandler(async(req, res) => {
 const removeLecture = asyncHandler(async(req, res) => {
     const {lectureId} = req.params;
 
-    const lecture = await Lecture.findById(lectureId);
+    const lecture = await Lecture.findByIdAndDelete(lectureId);
     if(!lecture){
         throw new ApiError(400, "Lecture is not found");
     }
+    await Courses.updateOne(
+        {lectures: lectureId},
+        {$pull: {lectures: lectureId}}
+    )
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(
+            200,
+            {},
+            "Lecture Removed"
+        )
+    )
 })
 
 
@@ -120,6 +134,7 @@ const removeLecture = asyncHandler(async(req, res) => {
 export  {
     createLecture,
     getCourseLecture,
-    editLecture
+    editLecture,
+    removeLecture
 }
 
