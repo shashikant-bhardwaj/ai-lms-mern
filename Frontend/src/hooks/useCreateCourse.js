@@ -18,7 +18,7 @@ function useCreateCourse() {
             const res = await api.post("/courses/create", data);
             dispatch(setAddCourse(res?.data?.data));
             navigate("/courses");
-            toast.success("Created")
+            toast.success("Created");
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -28,7 +28,7 @@ function useCreateCourse() {
             setLoading(false);
         }
     }
-    return { loading, createCourse }
+    return { loading, createCourse };
     
 }
 
