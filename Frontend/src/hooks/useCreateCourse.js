@@ -32,4 +32,4 @@ function useCreateCourse() {
     
 }
 
-export default useCreateCourse
+export default useCreateCourse;
