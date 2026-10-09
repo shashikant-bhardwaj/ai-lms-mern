@@ -36,7 +36,7 @@ function CardPage() {
                     
                     
 
-                ))}
+                ))};
 
             </div>
         </div>
