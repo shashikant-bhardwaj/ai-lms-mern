@@ -29,7 +29,7 @@ function CardPage() {
                    
                     <Card 
                     key={course?._id}
-                    thumbnail={course?.thumbnail}
+                    thumbnail={course?.thumbnail};
                     title={course?.title}
                     category={course?.category}
                     price={course?.price}/>
