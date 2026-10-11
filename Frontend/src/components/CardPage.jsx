@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Card from './Card';
 
 function CardPage() {
-    const {createdCourses} = useSelector(state => state.courses)
+    const {createdCourses} = useSelector(state => state.courses);
     const [popularCourses, setPopularCourses] = useState([]);
 
     useEffect(() => {
