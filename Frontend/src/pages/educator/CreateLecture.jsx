@@ -3,6 +3,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import useCreateLecture from '../../hooks/useCreateLecture.js';
+import { ClipLoader } from 'react-spinners';
 
 function CreateLecture() {
     const {createLecture, loading} = useCreateLecture();
@@ -10,6 +11,15 @@ function CreateLecture() {
     const navigate = useNavigate();
     const [lectureTitle, setLectureTitle] = useState("");
     const {lectureData} = useSelector(state => state.lecture);
+    const onChange = (e) => {
+        setLectureTitle(e.target.value);
+    }
+    const onCreateCourse = (e) => {
+        e.preventDefault();
+        createLecture(courseId, {lectureTitle});
+
+    }
+
     return (
         <div className='min-h-screen bg-gray-100 flex items-center
         justify-center p-4'>
@@ -28,6 +38,8 @@ function CreateLecture() {
                 </div>
                 {/* input  */}
                 <input
+                value={lectureTitle}
+                onChange={onChange}
                 type="text"
                 className='w-full border border-gray-300 rounded-md
                 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-black 
@@ -42,10 +54,13 @@ function CreateLecture() {
                     py-2 rounded-md bg-gray-200 hover:bg-gray-300 
                     text-sm font-medium'> 
                         <FaArrowLeftLong/>Back to Course</button>
-                    <button className='px-5 py-2 rounded-md bg-[black]
+                    <button
+                    disabled={loading}
+                    onClick={onCreateCourse}
+                    className='px-5 py-2 rounded-md bg-[black]
                     text-white hover:bg-gray-600 transition-all 
                     text-sm font-medium shadow'>
-                        Create Lecture</button>
+                        {loading ? <ClipLoader size={30} color='white'/> : "Create Lecture"}</button>
                 </div>
             </div>
         </div>

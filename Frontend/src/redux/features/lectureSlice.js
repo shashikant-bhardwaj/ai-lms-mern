@@ -9,7 +9,7 @@ const lectureSlice = createSlice({
     initialState,
     reducers: {
         setLectureData: (state, action) => {
-            state.lectureData = action.payload
+            state.lectureData = action.payload;
         }
         
     }

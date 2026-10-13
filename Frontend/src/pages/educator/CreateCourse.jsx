@@ -11,7 +11,7 @@ function CreateCourse() {
         title: "",
         category: ""
     });
-    console.log(data)
+    
     const onChange = (e) => {
         const {name, value} = e.target;
         setData((prev) => ({ 

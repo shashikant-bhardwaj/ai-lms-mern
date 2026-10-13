@@ -11,9 +11,11 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 // create lectrue controller
 
-const createLecture = asyncHandler(async() => {
+const createLecture = asyncHandler(async(req, res) => {
     const {lectureTitle} = req.body;
     const {courseId} = req.params;
+    console.log("Request body:", req.body);
+    console.log("Course ID:", req.params.courseId);
 
     if(!(lectureTitle && courseId)){
         throw new ApiError(400, "lecture title is required!");
@@ -24,12 +26,19 @@ const createLecture = asyncHandler(async() => {
         throw new ApiError(404, "Course not found !");
       }
 
-    const lecture = await Lecture.create({lectureTitle});
-    
-    course.lectures.push(lecture._id);
-    await course.save();
+    const lecture = await Lecture.create({ lectureTitle });
+console.log("2. Lecture created:", lecture);
 
-    await course.populate("lectures");
+console.log("3. Course lectures before push:", course.lectures);
+
+course.lectures.push(lecture._id);
+console.log("4. Lecture ID pushed");
+
+await course.save();
+console.log("5. Course saved");
+
+await course.populate("lectures");
+console.log("6. Lectures populated");
 
     return res
     .status(200)

@@ -34,10 +34,10 @@ const coursesSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User"
         },
-        lectures: {
+        lectures: [{
             type: Schema.Types.ObjectId,
             ref: "Lecture"
-        },
+        }],
         creator: {
             type: Schema.Types.ObjectId,
             ref: "User"
