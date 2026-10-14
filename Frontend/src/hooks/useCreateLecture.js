@@ -23,7 +23,7 @@ function useCreateLecture() {
     }
 
    }
-   return {createLecture, loading}
+   return {createLecture, loading};
 }
 
 export default useCreateLecture
