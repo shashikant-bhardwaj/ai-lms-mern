@@ -6,6 +6,7 @@ import useCreateLecture from '../../hooks/useCreateLecture.js';
 import { ClipLoader } from 'react-spinners';
 import useGetCourseLecture from '../../hooks/useGetCourseLecture.js';
 import { SkeletionLoading } from '../../components/SkeletionLoading.jsx';
+import { FaEdit } from "react-icons/fa";
 
 function CreateLecture() {
     const {createLecture, loading} = useCreateLecture();
@@ -20,6 +21,7 @@ function CreateLecture() {
     const onCreateCourse = (e) => {
         e.preventDefault();
         createLecture(courseId, {lectureTitle});
+        setLectureTitle("");
 
     }
 
@@ -42,7 +44,7 @@ function CreateLecture() {
                 <div className='mb-6'>
                     <h1 className='text-2xl font-semibold
                     text-gray-800 mb-1'>
-                        Create Lecture
+                        Let's Add a Lecture
                     </h1>
                     <p className='text-sm text-gray-500'>
                         Enter the title and your video lectures
@@ -74,6 +76,22 @@ function CreateLecture() {
                     text-white hover:bg-gray-600 transition-all 
                     text-sm font-medium shadow'>
                         {loading ? <ClipLoader size={30} color='white'/> : "Create Lecture"}</button>
+                </div>
+
+
+                 {/* lecture list  */}
+                <div className='space-y-1'>
+                    {lectureData?.map((lecture, index) => (
+                        <div key={lecture?._id} className='bg-gray-100 rounded-md flex
+                        justify-between items-center p-3 text-sm
+                        font-medium text-gray-700'>
+                            <span>Lecture - {index + 1} : {lecture?.lectureTitle}</span>
+                            <FaEdit 
+                            onClick={() => navigate(`/editlecture/${courseId}/${lecture?._id}`)}
+                            className='text-gray-500 
+                            hover:text-gray-700 cursor-pointer'/>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
