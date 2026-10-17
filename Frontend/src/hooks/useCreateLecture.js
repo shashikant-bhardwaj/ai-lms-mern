@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import api from '../services/api';
+import api from '../services/api.js';
 import { toast } from "sonner"
 import { useDispatch } from 'react-redux';
 import { setLectureData } from '../redux/features/lectureSlice.js';

@@ -8,7 +8,7 @@ const router = Route();
 //routes
 router.route("/createlecture/:courseId").post(verifyJWT, createLecture);
 router.route("/editlecture").post(verifyJWT, upload.single("videoUrl"), editLecture);
-router.route("/getcourselecture").get(verifyJWT, getCourseLecture);
+router.route("/getcourselecture/:courseId").get(verifyJWT, getCourseLecture);
 router.route("/removelecture/:lectureId").delete(verifyJWT, removeLecture);
 
 

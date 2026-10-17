@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import useCreateLecture from '../../hooks/useCreateLecture.js';
 import { ClipLoader } from 'react-spinners';
+import useGetCourseLecture from '../../hooks/useGetCourseLecture.js';
+import { SkeletionLoading } from '../../components/SkeletionLoading.jsx';
 
 function CreateLecture() {
     const {createLecture, loading} = useCreateLecture();
+    const {getCourseLecture, load} = useGetCourseLecture();
     const {courseId} = useParams();
     const navigate = useNavigate();
     const [lectureTitle, setLectureTitle] = useState("");
@@ -18,6 +21,16 @@ function CreateLecture() {
         e.preventDefault();
         createLecture(courseId, {lectureTitle});
 
+    }
+
+    useEffect(() => {
+        getCourseLecture(courseId);
+    },[])
+
+    if(load){
+        return(
+            <SkeletionLoading/>
+        )
     }
 
     return (
