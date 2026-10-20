@@ -90,13 +90,19 @@ const editLecture = asyncHandler(async(req, res) => {
     if(req.file){
         const videoLocalPath = req.file?.path;
         const  upload = await uploadOnCloudinary(videoLocalPath);
-        const videoUrl = upload?.url;   
+        const videoUrl = upload?.url; 
+        lecture.videoUrl = videoUrl; 
     }
     if(lectureTitle){
         lecture.lectureTitle = lectureTitle;
     }
 
-    lecture.isPreviewFree = isPreviewFree;
+    if(isPreviewFree){
+        isPreviewFree = isPreviewFree === "true";
+        lecture.isPreviewFree = isPreviewFree;
+    }
+
+    
 
     await lecture.save();
 
