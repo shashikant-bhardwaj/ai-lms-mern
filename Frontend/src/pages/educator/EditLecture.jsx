@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import useEditLecture from "../../hooks/useEditLecture.js";
+import useRemoveLecture from "../../hooks/useRemoveLecture.js";
+import { ClipLoader } from "react-spinners";
 
 function EditLecture() {
+  const {editLecture, loading} = useEditLecture();
+  const {removeLecture, removeLoading} = useRemoveLecture();
   const { courseId, lectureId } = useParams();
   const navigate = useNavigate();
   const { lectureData } = useSelector((state) => state.lecture);
@@ -49,11 +54,21 @@ function EditLecture() {
 
     const formData = new FormData();
 
-    if (setData?.videoUrl) {
+    if (data?.videoUrl) {
       formData.append("videoUrl", data?.videoUrl);
     }
     formData.append("lectureTitle", data?.lectureTitle);
+    formData.append("isPreviewFree", data?.isPreviewFree);
+
+    if(lectureId){
+      editLecture(lectureId, formData);
+    }
   };
+
+  const onRemoveLecture = (e) => {
+    e.preventDefault();
+    removeLecture(lectureId, courseId);
+  }
 
   return (
     <div
@@ -76,11 +91,13 @@ function EditLecture() {
         </div>
 
         <button
+        onClick={onRemoveLecture}
+        disabled={removeLoading}
           className="mt-2 px-4 py-2 bg-red-600 
                 text-white rounded-md hover:bg-red-700 transition-all
                 text-sm"
         >
-          Remove Lecture
+          {removeLoading ? <ClipLoader size={30} color="white"/> : "Remove Lecture"}
         </button>
 
         <div className="space-y-4">
@@ -94,7 +111,7 @@ function EditLecture() {
             </label>
             <input
               name="lectureTitle"
-              value={(e) => e.target.value}
+              value={lectureData?.lectureTitle}
               onChange={onChange}
               className="w-full p-3 border border-gray-300 rounded-md
                         text-sm focus:ring-2 focus:ring-[black] focus:outline-none"
@@ -112,14 +129,15 @@ function EditLecture() {
               Video *
             </label>
             <input
-              name="videoUrl"
-              className="w-full border border-gray-300
+            onChange={onChange}
+            name="videoUrl"
+            className="w-full border border-gray-300
                         rounded-md p-2 file:mr-4 file:py-2 file:px-4 
                         file:rounded-md file:border-0 file:text-sm file:bg-gray-700
                         file:text-[white] hover:file:bg-gray-500 "
-              type="file"
-              required
-              accept="video/*"
+            type="file"
+            required
+            accept="video/*"
             />
           </div>
 
@@ -140,11 +158,13 @@ function EditLecture() {
 
         <div className="pt-4">
           <button
+          disabled={loading}
+          onClick={onSubmitiHandler}
             className="w-full bg-black text-white py-3
                     rounded-md text-sm font-medium hover:bg-gray-700
                     transition"
           >
-            Update Lecture
+            {loading ? <ClipLoader size={30} color="white"/> : "Update Lecture"}
           </button>
         </div>
       </div>
