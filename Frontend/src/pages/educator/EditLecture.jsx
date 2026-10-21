@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,6 +20,16 @@ function EditLecture() {
     videoUrl: selectedLecture?.videoUrl || "",
     isPreviewFree: selectedLecture?.isPreviewFree || false,
   });
+
+  useEffect(() => {
+    if(selectedLecture){
+      setData({
+    lectureTitle: selectedLecture?.lectureTitle || "",
+    videoUrl: selectedLecture?.videoUrl || "",
+    isPreviewFree: selectedLecture?.isPreviewFree || false,
+  });
+    }
+  }, [selectedLecture]);
   console.log(data);
 
   const onChange = (e) => {
@@ -54,14 +64,14 @@ function EditLecture() {
 
     const formData = new FormData();
 
-    if (data?.videoUrl) {
+    if (data?.videoUrl instanceof File) {
       formData.append("videoUrl", data?.videoUrl);
     }
     formData.append("lectureTitle", data?.lectureTitle);
     formData.append("isPreviewFree", data?.isPreviewFree);
 
     if(lectureId){
-      editLecture(lectureId, formData);
+      editLecture(lectureId, courseId, formData);
     }
   };
 
@@ -111,7 +121,7 @@ function EditLecture() {
             </label>
             <input
               name="lectureTitle"
-              value={lectureData?.lectureTitle}
+              value={data?.lectureTitle}
               onChange={onChange}
               className="w-full p-3 border border-gray-300 rounded-md
                         text-sm focus:ring-2 focus:ring-[black] focus:outline-none"

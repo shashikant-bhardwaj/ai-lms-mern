@@ -60,6 +60,7 @@ const getCourseLecture = asyncHandler(async(req, res) => {
     if(!course){
         throw new ApiError(404, "course is not found !");
     }
+    console.log("courseLecture" , course.lectures)
 
     return res
     .status(200)
@@ -79,7 +80,7 @@ const getCourseLecture = asyncHandler(async(req, res) => {
 
 const editLecture = asyncHandler(async(req, res) => {
     const { lectureId } = req.params;
-    const { isPreviewFree, lectureTitle } = req.body;
+    let { isPreviewFree, lectureTitle } = req.body;
 
     const lecture = await Lecture.findById(lectureId);
     if(!lecture){
@@ -90,14 +91,14 @@ const editLecture = asyncHandler(async(req, res) => {
     if(req.file){
         const videoLocalPath = req.file?.path;
         const  upload = await uploadOnCloudinary(videoLocalPath);
-        const videoUrl = upload?.url; 
+        videoUrl = upload?.url; 
         lecture.videoUrl = videoUrl; 
     }
     if(lectureTitle){
         lecture.lectureTitle = lectureTitle;
     }
 
-    if(isPreviewFree){
+    if(isPreviewFree != undefined){
         isPreviewFree = isPreviewFree === "true";
         lecture.isPreviewFree = isPreviewFree;
     }
@@ -123,14 +124,18 @@ const editLecture = asyncHandler(async(req, res) => {
 const removeLecture = asyncHandler(async(req, res) => {
     const {lectureId} = req.params;
 
-    const lecture = await Lecture.findByIdAndDelete(lectureId);
-    if(!lecture){
-        throw new ApiError(400, "Lecture is not found");
+  const lecture = await Lecture.findById(lectureId);
+
+    if (!lecture) {
+        throw new ApiError(404, "Lecture is not found");
     }
-    await Courses.updateOne(
-        {lectures: lectureId},
-        {$pull: {lectures: lectureId}}
-    )
+
+    await Courses.updateMany(
+        { lectures: lecture._id },
+        { $pull: { lectures: lecture._id } }
+    );
+
+    await Lecture.findByIdAndDelete(lecture._id);
 
     return res
     .status(200)

@@ -15,7 +15,6 @@ function useGetCreatedCourses() {
 
     try {
         const res = await api.get("/courses/creatorcourses");
-        console.log(res)
         dispatch(setCreatedCourses(res?.data?.data));
 
     } catch (error) {

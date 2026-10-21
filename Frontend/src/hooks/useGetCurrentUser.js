@@ -14,11 +14,9 @@ function useGetCurrentUser() {
             setCurrentUserLoading(true);
             try {
                 const res = await api.get("/users/current-user");
-                console.log(res)
                 dispatch(setAuthUser(res?.data?.data))
             } catch (error) {
                 setCurrentUserLoading(false);
-                console.log(error.response)
                 dispatch(setAuthUser(null))
             }finally{
                 setCurrentUserLoading(false);

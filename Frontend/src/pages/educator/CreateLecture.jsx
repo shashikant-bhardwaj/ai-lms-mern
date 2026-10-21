@@ -68,7 +68,7 @@ function CreateLecture() {
                     className='flex items-center gap-2 px-4
                     py-2 rounded-md bg-gray-200 hover:bg-gray-300 
                     text-sm font-medium'> 
-                        <FaArrowLeftLong/>Back to Course</button>
+                        <FaArrowLeftLong />Back to Course</button>
                     <button
                     disabled={loading}
                     onClick={onCreateCourse}

@@ -13,7 +13,6 @@ function useRemoveCourse() {
         setRemoveLoading(true);
         try {
             const res = await api.post(`/courses/removecourse/${courseId}`);
-            console.log("DELETE RESPONSE:", res.data);
             dispatch(setRemovedCourse(courseId));
             navigate("/courses");
             toast.success("removed");

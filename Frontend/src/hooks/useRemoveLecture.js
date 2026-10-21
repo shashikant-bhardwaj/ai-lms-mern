@@ -3,16 +3,18 @@ import api from '../services/api'
 import { toast } from "sonner"
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { setLectureData } from '../redux/features/lectureSlice.js';
+import { removeLectureAction } from '../redux/features/lectureSlice.js';
 
 function useRemoveLecture() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [removeLoading, setRemoveLoading] = useState(false);
 
     const removeLecture = async(lectureId, courseId) => {
         setRemoveLoading(true);
         try {
-            const res = await api.post(`/lectures/removelecture/${lectureId}`);
+            await api.delete(`/lectures/removelecture/${lectureId}`);
+            dispatch(removeLectureAction(lectureId))
             navigate(`/createlecture/${courseId}`);
             toast.success("Removed");
             setRemoveLoading(false);
