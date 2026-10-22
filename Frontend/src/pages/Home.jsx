@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navbar } from '../components/Navbar.jsx';
 import home from "../assets/home1.jpg"
 import { SiViaplay } from "react-icons/si";
@@ -12,9 +12,12 @@ import { SkeletionLoading } from '../components/SkeletionLoading.jsx';
 import CardPage from '../components/CardPage.jsx';
 import { useNavigate } from 'react-router-dom';
 
+
 function Home() {
+  
   const { currentUserLoading } = useGetCurrentUser();
   const navigate = useNavigate();
+  
   if(currentUserLoading){
     return(
       <SkeletionLoading/>

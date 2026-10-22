@@ -24,7 +24,7 @@ const createCourse = asyncHandler(async (req, res) => {
 
 //get all courses controller
 const getPublishedCourses = asyncHandler(async (req, res) => {
-  const courses = await Courses.find({ isPublished: true });
+  const courses = await Courses.find({ isPublished: true }).populate("lectures");
   if (!courses) {
     throw new ApiError(401, "Courses not found");
   }

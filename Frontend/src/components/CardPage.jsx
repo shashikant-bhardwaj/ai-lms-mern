@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux';
 import Card from './Card';
 
 function CardPage() {
-    const {createdCourses} = useSelector(state => state.courses);
+    const {publishedCourses} = useSelector(state => state.courses);
     const [popularCourses, setPopularCourses] = useState([]);
 
     useEffect(() => {
-        setPopularCourses(createdCourses?.slice(0,7))
-    },[createdCourses]);
+        setPopularCourses(publishedCourses?.slice(0,7))
+    },[publishedCourses]);
     return (
         
         <div className='relative flex items-center justify-center flex-col'>
@@ -32,7 +32,9 @@ function CardPage() {
                     thumbnail={course?.thumbnail}
                     title={course?.title}
                     category={course?.category}
-                    price={course?.price}/>
+                    price={course?.price}
+                    courseId={course?._id}/>
+                    
                     
                     
 

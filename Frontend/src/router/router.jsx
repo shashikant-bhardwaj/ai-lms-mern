@@ -17,6 +17,7 @@ import EditProfile from "../pages/EditProfile.jsx";
 import AllCourses from "../pages/AllCourses.jsx";
 import CreateLecture from "../pages/educator/CreateLecture.jsx";
 import EditLecture from "../pages/educator/EditLecture.jsx";
+import ViewCourses from "../pages/ViewCourses.jsx";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
           {
             path: "allcourses",
             element: <AllCourses />,
+          },
+          {
+            path: "viewcourses/:courseId",
+            element: <ViewCourses />,
           },
          
         ],

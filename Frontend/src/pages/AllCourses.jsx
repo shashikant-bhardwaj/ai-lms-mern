@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import Card from "../components/Card.jsx"
 function AllCourses() {
     const navigate = useNavigate();
-    const { createdCourses } = useSelector(state => state?.courses);
+    const { publishedCourses } = useSelector(state => state?.courses);
     const [category, setCategory] = useState([]);
     const [filteCourses, setFilterCourses] = useState([]);
     const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -21,7 +21,8 @@ function AllCourses() {
     }
 
     const applyFilter = () => {
-      let courseCopy = createdCourses?.slice();
+      let courseCopy = publishedCourses?.slice() || [];
+
       if(category.length > 0){
          courseCopy = courseCopy.filter(c => category.includes(c.category)) 
       }
@@ -29,8 +30,8 @@ function AllCourses() {
     }
 
     useEffect(() => {
-      setFilterCourses(createdCourses)
-    },[createdCourses])
+      setFilterCourses(publishedCourses)
+    },[publishedCourses])
 
     useEffect(() => {
       applyFilter();
