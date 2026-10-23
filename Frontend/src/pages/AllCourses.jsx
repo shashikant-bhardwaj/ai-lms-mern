@@ -202,4 +202,4 @@ function AllCourses() {
     )
 }
 
-export default AllCourses
+export default AllCourses;
