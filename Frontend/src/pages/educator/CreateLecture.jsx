@@ -27,7 +27,7 @@ function CreateLecture() {
 
     useEffect(() => {
         getCourseLecture(courseId);
-    },[])
+    },[]);
 
     if(load){
         return(
