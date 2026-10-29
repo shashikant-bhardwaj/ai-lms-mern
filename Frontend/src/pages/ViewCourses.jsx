@@ -2,17 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate, useParams } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
-import { setSelectedCourse } from '../redux/features/courseSlice';
+import { setSelectedCourse } from '../redux/features/courseSlice.js';
 import emptyImg from "../assets/empty.jpg"
 import { FaStar } from "react-icons/fa6";
+import { FaPlayCircle } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
+import useGetCreatorData from '../hooks/useGetCreatorData.js';
+import Card from '../components/Card.jsx';
 
 function ViewCourses() {
+    
     const navigate = useNavigate();
     const {courseId} = useParams();
     const {publishedCourses} = useSelector(state => state.courses);
     const {selectedCourse} = useSelector(state => state.courses);
     const dispatch = useDispatch();
+    const {getCreatorData} = useGetCreatorData();
     const [selectedLecture, setSelectedLecture] = useState(null);
+    const [creatorData, setCreatorData] = useState(null);
+    const [creatorCourses, setCreatorCourses] = useState(null);
 
 
     const fetchCourseData = () => {
@@ -25,6 +33,25 @@ function ViewCourses() {
             }
         })
     }
+
+    
+
+    useEffect(() => {
+        if(selectedCourse?.creator){
+        getCreatorData(selectedCourse?.creator, setCreatorData)
+        
+        }
+    },[selectedCourse])
+
+    useEffect(() => {
+        if(creatorData?._id && publishedCourses.length > 0){
+            const result = publishedCourses?.filter((course) => (
+                course?.creator === creatorData?._id && course?._id !== courseId
+            )) 
+
+            setCreatorCourses(result);
+        }
+    },[creatorData, publishedCourses])
 
     useEffect(() => {
         fetchCourseData();
@@ -141,7 +168,12 @@ function ViewCourses() {
                                     :
                                     ""
                                 }`}>
-                                    {lecture?.lectureTitle}</button>
+                                    <span className='text-lg text-gray-700'>
+                                        {lecture?.isPreviewFree ? <FaPlayCircle /> : <FaLock />}
+                                    </span>
+                                    <span className='text-sm font-medium 
+                                    text-gray-800'>{lecture?.lectureTitle}</span>
+                                    </button>
                             ))}
                             
 
@@ -151,7 +183,90 @@ function ViewCourses() {
 
 
 
-                    <div></div>
+                    <div className='bg-white w-full md:w-3/5 p-6
+                    rounded-2xl shadow-lg border border-gray-200'>
+
+                        <div className='aspect-video w-full rounded-lg 
+                        overflow-hidden mb-4 bg-black flex items-center
+                        justify-center'>
+
+                            {selectedLecture?.videoUrl ? <video className='
+                            w-full h-full object-cover' src={selectedLecture?.videoUrl}
+                            controls/> :
+                             <span className='text-white text-sm'>Select a preview lecture to watch</span>}
+                        </div>
+                    </div>
+                </div>
+
+                <div className='mt-8 border-t pt-6'>
+                    <h2 className='text-xl font-semibold mb-2'>
+                        Write a Reviews
+                    </h2>
+
+                    <div className='mb-4'>
+                        <div className='flex gap-1 mb-2'>
+                            {
+                                [1,2,3,4,5].map((star) => (
+                                    <FaStar 
+                                    className='fill-gray-300'/>
+                                ))
+                            }
+                        </div>
+
+                        <textarea
+                        placeholder='Write your review here...'
+                        className='w-full border border-gray-300 rounded-lg p-2'
+                        rows={3}/>
+
+                        <button className='bg-black text-white mt-3
+                        px-4 py-2 rounded hover:bg-gray-800'>
+                            Submit Review
+                        </button>
+                            
+                        
+                    </div>
+                </div>
+
+                {/* for creatorInfo  */}
+
+                <div className='flex items-center gap-4 pt-4
+                border-t'>
+
+                    {creatorData?.photoUrl ?
+                    <img src={creatorData?.photoUrl} alt=""
+                    className='border border-gray-200 w-16 h-16 rounded-full object-cover' /> :
+                    <img src={emptyImg} alt=""
+                    className='border border-gray-200 w-16 h-16 rounded-full object-cover' />}
+
+                    <div>
+                        <h2 className='text-lg font-semibold'>
+                            {creatorData?.fullName}
+                        </h2>
+                        <p className='md:text-sm text-gray-600 text-[10px]'>{creatorData?.description}</p>
+                        <p className='md:text-sm text-gray-600 text-[10px]'>{creatorData?.email}</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <p className='text-xl font-semibold mb-2'>
+                        Other Published Courses by the Educator.</p>
+                </div>
+
+                <div className='w-full transition-all duration-300
+                py-[20px] flex items-start justify-center
+                lg:justify-start flex-wrap gap-6 lg:px-[80px]'>
+
+                    {creatorCourses?.map((course) => (
+                        <Card
+                        key= {course?._id}
+                        thumbnail= {course?.thumbnail}
+                        title= {course?.title}
+                        category={course?.category}
+                        price={course?.price}
+                        courseId={course?._id}
+                        />
+                    ))}
+
                 </div>
 
             </div>

@@ -6,7 +6,7 @@ function Card({thumbnail, title, category, price, courseId}) {
     const navigate = useNavigate();
     return (
         <div
-        onClick={() =>  navigate(`viewcourses/${courseId}`)}
+        onClick={() =>  navigate(`/viewcourses/${courseId}`)}
         className='max-w-sm w-full bg-white rounded-2xl overflow-hidden
         shadow-md  transition-all duration-300 border border-gray-300
         transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-black'>

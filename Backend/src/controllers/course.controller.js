@@ -3,6 +3,7 @@ import { Courses } from "../models/courses.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { User } from "../models/user.model.js";
 
 // create course controller
 const createCourse = asyncHandler(async (req, res) => {
@@ -123,11 +124,33 @@ const removeCourse = asyncHandler(async(req, res) => {
 })
 
 
+//get creator
+const getCreatorById = asyncHandler(async(req, res) => {
+  const {userId} = req.body;
+
+  const user = await User.findById(userId).select("-password");
+
+  if(!user){
+    throw new ApiError(404, "User is not found")
+  }
+
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(
+      200,
+      user
+    )
+  )
+})
+
+
 export {
   createCourse,
   getPublishedCourses,
   createdCourses,
   editCourse,
   getCourseById,
-  removeCourse
+  removeCourse,
+  getCreatorById
 }

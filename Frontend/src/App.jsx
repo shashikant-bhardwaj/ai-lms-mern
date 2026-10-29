@@ -6,6 +6,7 @@ import useGetCurrentUser from "./hooks/useGetCurrentUser.js"
 import useGetPublishedCourses from './hooks/useGetCreatedCourses.js';
 import useGetCreatedCourses from './hooks/useGetCreatedCourses.js';
 import UseGetPublishedCourses from './hooks/useGetPublishedCourses.js';
+import ScrollToTop from './components/ScrollToTop.jsx';
 
 
 
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <>
+   <ScrollToTop/>
    <Toaster/>
     <Outlet/>
     {/* <Footer/> */}
