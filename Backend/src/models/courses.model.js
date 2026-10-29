@@ -20,7 +20,9 @@ const coursesSchema = new Schema(
         },
         level: {
             type: String,
-            enum: ["Beginner", "Intermediate", "Advanced"]
+            enum: ["Beginner", "Intermediate", "Advanced"],
+            default: "Beginner"
+            
         },
         price: {
             type: Number,

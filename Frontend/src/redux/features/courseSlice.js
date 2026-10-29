@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     createdCourses: [],
-    publishedCourses: []
+    publishedCourses: [],
+    selectedCourse: null
 }
 
 const courseSlice = createSlice({
@@ -32,10 +33,13 @@ const courseSlice = createSlice({
         },
         setPublishedCourses:(state, action) => {
             state.publishedCourses = action.payload;
+        },
+        setSelectedCourse:(state, action) => {
+            state.selectedCourse = action.payload;
         }
         
     }
 })
 
-export const { setCreatedCourses, setAddCourse, setUpdatedCourses, setRemovedCourse, setPublishedCourses } = courseSlice.actions;
+export const { setCreatedCourses, setAddCourse, setUpdatedCourses, setRemovedCourse, setPublishedCourses, setSelectedCourse } = courseSlice.actions;
 export default courseSlice.reducer;
