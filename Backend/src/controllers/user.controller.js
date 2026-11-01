@@ -9,10 +9,9 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 //get current user
 const getCurrentUser = asyncHandler(async(req, res) => {
 
-    const currentUser = await User.findById(req.user?._id).select("-password");
-    console.log(currentUser);
+    const currentUser = await User.findById(req.user?._id).select("-password").populate("enrolledCourses");
     if(!currentUser){
-        throw ApiError(401, "current user not found");
+        throw new ApiError(401, "current user not found");
     }
 
     return res

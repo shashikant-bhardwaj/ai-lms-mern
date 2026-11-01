@@ -18,6 +18,7 @@ import AllCourses from "../pages/AllCourses.jsx";
 import CreateLecture from "../pages/educator/CreateLecture.jsx";
 import EditLecture from "../pages/educator/EditLecture.jsx";
 import ViewCourses from "../pages/ViewCourses.jsx";
+import MyEnrolledCourses from "../pages/MyEnrolledCourses.jsx";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
           {
             path: "viewcourses/:courseId",
             element: <ViewCourses />,
+          },
+          {
+            path: "EnrolledCourses",
+            element: <MyEnrolledCourses />,
           },
          
         ],

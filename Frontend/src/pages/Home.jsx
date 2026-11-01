@@ -11,6 +11,8 @@ import useGetCurrentUser from '../hooks/useGetCurrentUser.js';
 import { SkeletionLoading } from '../components/SkeletionLoading.jsx';
 import CardPage from '../components/CardPage.jsx';
 import { useNavigate } from 'react-router-dom';
+import About from '../components/About.jsx';
+import Footer from '../components/Footer.jsx';
 
 
 function Home() {
@@ -163,6 +165,8 @@ flex items-center justify-center gap-3 flex-wrap py-[20px] lg:py-0'>
 
       <ExploreCourses />
       <CardPage/>
+      <About/>
+      <Footer/>
     </>
   );
 }

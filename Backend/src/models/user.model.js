@@ -44,7 +44,7 @@ const userSchema = new Schema(
     enrolledCourses: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Course",
+        ref: "Courses",
       },
     ],
     passResetOtp: {
