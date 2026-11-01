@@ -2,6 +2,7 @@ import React from 'react'
 import about from "../assets/about.jpg"
 import video from "../assets/video.mp4"
 import { TfiLayoutLineSolid } from "react-icons/tfi";
+import { BsPatchCheckFill } from "react-icons/bs";
 
 function About() {
     return (
@@ -39,6 +40,42 @@ function About() {
                     <div 
                     className='md:text-[45px] text-[35px] font-semibold'>
                         We are Maximize Your Learning Growth</div>
+
+                        <div className='text-[15px]'>
+                            We provide a modern Learning Management System to simplify 
+                            online education , track progress , and enhance student-instructor
+                            collaboration efficiently.
+                        </div>
+
+                        <div className='w-[100%] lg:w-[60%]'>
+                            <div className='flex items-center justify-between
+                            mt-[40px]'>
+                                <div className='flex items-center justify-center
+                                gap-[10px]'>
+                                    <BsPatchCheckFill className='w-[20px] h-[20px]'/>
+                                    Simplified Learning
+                                </div>
+                                <div className='flex items-center justify-center
+                                gap-[10px]'>
+                                    <BsPatchCheckFill className='w-[20px] h-[20px]'/>
+                                    Expert Trainers
+                                </div>
+                                </div>
+
+                                <div className='flex items-center justify-between
+                            mt-[40px]'>
+                                <div className='flex items-center justify-center
+                                gap-[10px]'>
+                                    <BsPatchCheckFill className='w-[20px] h-[20px]'/>
+                                    15+ Years Of Experience
+                                </div>
+                                <div className='flex items-center justify-center
+                                gap-[10px]'>
+                                    <BsPatchCheckFill className='w-[20px] h-[20px]'/>
+                                    LifeTime Access
+                                </div>
+                            </div>
+                        </div>
             </div>
         </div>
     )

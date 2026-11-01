@@ -1,40 +1,40 @@
-import React , { useState }from "react";
-import logo from "../../public/logo.png"
-import google from "../assets/google.jpg"
+import React, { useState } from "react";
+import logo from "../../public/logo.png";
+import google from "../assets/google.jpg";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin.js";
 import { ClipLoader } from "react-spinners";
 import useGoogleLogin from "../hooks/useGoogleLogin.js";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 function Login() {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const { login, loading } = useLogin();
-    const [user, setUser] = useState({
+  const [user, setUser] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const onChange = (e) => {
-    const{name, value } = e.target;
+    const { name, value } = e.target;
     setUser((prev) => ({
       ...prev,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
   const onSubmitHandler = (e) => {
-  e.preventDefault();
-  login(user);
-
-}
+    e.preventDefault();
+    login(user);
+  };
 
   // // google Login
   const { googleLogin } = useGoogleLogin();
   const onGoogleClick = () => {
-   googleLogin();
-  }
+    googleLogin();
+  };
 
   return (
     <>
@@ -42,11 +42,17 @@ function Login() {
         className="bg-[#dddbdb] w-[100vw] h-[100vh] flex
            items-center justify-center"
       >
+       
         <form
           onSubmit={onSubmitHandler}
           className="w-[90%] md:w-200 h-150 bg-[white] shadow-xl
-           rounded-2xl flex"
+           rounded-2xl flex relative"
         >
+           <FaArrowLeftLong
+          onClick={() => navigate("/")}
+          className="absolute top-[16%] md:top-[6%] 
+                    left-[5%] w-[22px] h-[22px] cursor-pointer"
+        />
           {/* {left div} */}
           <div
             className="md:w-[50%] w-[100%] h-[100%] flex flex-col
@@ -56,9 +62,7 @@ function Login() {
               <h1 className="font-semibold text-black text-2xl">
                 Welcome back
               </h1>
-              <h2 className="text-[#999797] text-[18px]">
-                Login your  account
-              </h2>
+              <h2 className="text-[#999797] text-[18px]">Login your account</h2>
             </div>
             <div
               className="flex flex-col gap-1 w-[80%] items-start
@@ -114,10 +118,13 @@ function Login() {
               className="w-[80%] h-[40px] bg-black text-white cursor-pointer
               cursor-pointer flex items-center justify-center rounded-[5px]"
             >
-              { loading ? <ClipLoader size={30} color="white"/> : "Login"} 
+              {loading ? <ClipLoader size={30} color="white" /> : "Login"}
             </button>
-            <span onClick={() => navigate("/forget")} className="text-[13px] cursor-pointer text-[#585757]">
-                Forget your password ?
+            <span
+              onClick={() => navigate("/forget")}
+              className="text-[13px] cursor-pointer text-[#585757]"
+            >
+              Forget your password ?
             </span>
             <div className="w-[80%] flex items-center gap-2">
               <div className="w-[25%] h-[0.5px] bg-[#c4c4c4]"></div>
@@ -137,10 +144,16 @@ function Login() {
               <img src={google} alt="" className="w-[25px]" />
               <span className="text-[18px] text-gray-500">oogle</span>
             </div>
-             <div className='text-[#6f6f6f'>
-                 Create new account<span className='underline underline-offset-1
-                 text-[black] cursor-pointer' onClick={() => navigate("/signup")}>SignUp</span>
-           </div>
+            <div className="text-[#6f6f6f">
+              Create new account
+              <span
+                className="underline underline-offset-1
+                 text-[black] cursor-pointer"
+                onClick={() => navigate("/signup")}
+              >
+                SignUp
+              </span>
+            </div>
           </div>
 
           {/* {right div} */}
